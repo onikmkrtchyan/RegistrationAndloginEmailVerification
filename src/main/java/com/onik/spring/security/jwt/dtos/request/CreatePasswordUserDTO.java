@@ -1,4 +1,4 @@
-package ai_tech.service.user.dto;
+package com.onik.spring.security.jwt.dtos.request;
 
 import lombok.Getter;
 import lombok.Setter;

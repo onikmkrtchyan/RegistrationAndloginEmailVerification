@@ -54,10 +54,3 @@ onik.app.jwtRefreshExpirationMs= 86400000
 ```
 mvn spring-boot:run
 ```
-
-## Run following SQL insert statements
-```
-INSERT INTO role(name) VALUES('ROLE_USER');
-INSERT INTO role(name) VALUES('ROLE_MODERATOR');
-INSERT INTO role(name) VALUES('ROLE_ADMIN');
-```

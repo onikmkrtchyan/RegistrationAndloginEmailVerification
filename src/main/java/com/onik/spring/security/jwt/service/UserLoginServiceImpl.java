@@ -2,8 +2,8 @@ package com.onik.spring.security.jwt.service;
 
 import com.onik.spring.security.jwt.Entities.RefreshTokenEntity;
 import com.onik.spring.security.jwt.Entities.RoleEntity;
-import com.onik.spring.security.jwt.Entities.UserRoleEntity;
-import com.onik.spring.security.jwt.repository.UserRoleRepository;
+import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
+import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
 import com.onik.spring.security.jwt.security.services.RoleEnum;
 import com.onik.spring.security.jwt.Entities.UserEntity;
 import com.onik.spring.security.jwt.dtos.request.LoginRequest;
@@ -18,6 +18,7 @@ import com.onik.spring.security.jwt.repository.RoleRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
 import com.onik.spring.security.jwt.security.jwt.JwtUtils;
 import com.onik.spring.security.jwt.security.services.UserDetailsImpl;
+import com.onik.spring.security.jwt.service.mail.EmailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,12 +29,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.onik.spring.security.jwt.utils.PasswordUtils.generate;
 
 @Service
 @AllArgsConstructor
@@ -45,7 +44,44 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final JwtUtils jwtUtils;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserDetailsService userDetailsService;
-    private final UserRoleRepository userRoleRepository;
+    private final EmailSenderService emailSenderService;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    @Transactional
+    public Long create(SignupEmailRequest signupEmailRequest) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(signupEmailRequest.getUsername());
+        userEntity.setEmail(signupEmailRequest.getEmail());
+        String oneTimePassword = generate();
+        userEntity.setPassword(oneTimePassword);
+        userRepository.save(userEntity);
+        emailSenderService.sendCreatePasswordEmail(signupEmailRequest, oneTimePassword);
+        return userEntity.getId();
+    }
+
+
+    @Override
+    @Transactional
+    public void updatePassword(CreatePasswordUserDTO createPasswordUserDTO) {
+        comparePasswords(createPasswordUserDTO);
+        updatePassword(createPasswordUserDTO.getPassword());
+    }
+
+    private static void comparePasswords(CreatePasswordUserDTO createPasswordUserDTO) {
+        if (createPasswordUserDTO.getPassword().equals(createPasswordUserDTO.getRepeatedPassword()))
+            return;
+        throw new RuntimeException("Password mismatch");
+    }
+
+    private void updatePassword(String password) {
+        UserDetailsImpl usi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity userEntity = userRepository
+                .findByUsername(usi.getUsername())
+                .orElseThrow(() -> new RuntimeException("username"));
+        userEntity.setPassword(passwordEncoder.encode(password));
+        userRepository.save(userEntity);
+    }
 
     @Override
     public JwtResponse getLoginRequest(LoginRequest loginRequest) {
@@ -75,22 +111,13 @@ public class UserLoginServiceImpl implements UserLoginService {
             return new MessageResponse("Error: Email is already in use!");
         }
 
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<RoleEntity>  roleEntities = getRoleEntity(strRoles);
+        List<String> strRoles = signUpRequest.getRole();
+        List<RoleEntity>  roleEntities = getRoleEntity(strRoles);
 
         UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()), new ArrayList<>(roleEntities));
 
         userRepository.save(user);
-
-//        List<UserRoleEntity> userRoleEntities = new ArrayList<>();
-//        for (RoleEntity roleEntity : roleEntities) {
-//            UserRoleEntity userRoleEntity = new UserRoleEntity();
-//            userRoleEntity.setUser(userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UserNotFoundException(user.getId())));
-//            userRoleEntity.setRole(roleEntity);
-//            userRoleEntities.add(userRoleEntity);
-//        }
-//        userRoleRepository.saveAll(userRoleEntities);
 
         return new MessageResponse("User registered successfully!");
     }
@@ -121,8 +148,8 @@ public class UserLoginServiceImpl implements UserLoginService {
         return jwtRefreshToken;
     }
 
-    private Set<RoleEntity>  getRoleEntity(Set<String> strRoles) {
-        Set<RoleEntity> roleEntities = new HashSet<>();
+    private List<RoleEntity>  getRoleEntity(List<String> strRoles) {
+        List<RoleEntity> roleEntities = new ArrayList<>();
         if (strRoles == null) {
             RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));

@@ -2,6 +2,8 @@ package com.onik.spring.security.jwt.controllers;
 
 import javax.validation.Valid;
 
+import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
+import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
 import com.onik.spring.security.jwt.service.UserLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,16 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         MessageResponse messageResponse = userLoginService.getSignupRequest(signUpRequest);
         return ResponseEntity.ok(messageResponse);
+    }
+    @PostMapping("/signup_email")
+    public ResponseEntity<?> registerUserEmail(@Valid @RequestBody SignupEmailRequest signUpEmailRequest) {
+        Long id = userLoginService.create(signUpEmailRequest);
+        return ResponseEntity.ok(id);
+    }
+
+    @PostMapping("/create-password")
+    public void createPassword(@RequestBody @Valid CreatePasswordUserDTO createPasswordUserDTO) {
+        userLoginService.updatePassword(createPasswordUserDTO);
     }
 
     @PostMapping("/signing")

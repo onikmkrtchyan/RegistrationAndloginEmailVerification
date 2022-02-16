@@ -1,4 +1,4 @@
-package ai_tech.service.mail.dto;
+package com.onik.spring.security.jwt.service.mail.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -30,8 +30,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final Map<String, Object> body = new HashMap<>();
         body.put("status", response.getStatus());
-//        body.put("error", "Unauthorized");
-//        body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();

@@ -28,11 +28,11 @@ public class UserEntity {
     private String email;
     private String password;
 
-    public UserEntity(String username, String email, String password, List<RoleEntity> roles) {
+    public UserEntity(String username, String email, String password, List<RoleEntity> role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.role = role;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -41,5 +41,5 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<RoleEntity> roles;
+    private List<RoleEntity> role;
 }

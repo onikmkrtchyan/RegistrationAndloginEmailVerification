@@ -1,6 +1,6 @@
-package ai_tech.service.user.account.dto;
+package com.onik.spring.security.jwt.dtos.request;
 
-import ai_tech.utils.validators.password.ValidatePassword;
+import com.onik.spring.security.jwt.utils.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,12 +8,12 @@ import lombok.Setter;
 @Setter
 public class ChangePasswordDTO {
 
-    @ValidatePassword
+    @ValidPassword
     private String oldPassword;
 
-    @ValidatePassword
+    @ValidPassword
     private String newPassword1;
 
-    @ValidatePassword
+    @ValidPassword
     private String newPassword2;
 }

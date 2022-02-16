@@ -3,15 +3,16 @@ package com.onik.spring.security.jwt.dtos.request;
 import com.onik.spring.security.jwt.utils.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
+
+import java.util.List;
 import javax.validation.constraints.*;
 
 @Getter
 @Setter
 public class SignupRequest {
+
     @NotBlank
     @Size(min = 3, max = 20)
-
     private String username;
 
     @NotBlank
@@ -19,7 +20,7 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private List<String> role;
 
     @NotBlank
     @ValidPassword

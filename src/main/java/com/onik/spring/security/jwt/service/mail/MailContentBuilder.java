@@ -1,6 +1,7 @@
-package ai_tech.service.mail;
+package com.onik.spring.security.jwt.service.mail;
 
-import ai_tech.service.mail.dto.RegContentDTO;
+
+import com.onik.spring.security.jwt.service.mail.dto.RegContentDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;

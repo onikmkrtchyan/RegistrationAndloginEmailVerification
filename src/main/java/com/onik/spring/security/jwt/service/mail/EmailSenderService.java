@@ -1,9 +1,6 @@
-package ai_tech.service.mail;
-
-import ai_tech.service.user.dto.BaseUserDTO;
+package com.onik.spring.security.jwt.service.mail;
+import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
 
 public interface EmailSenderService {
-    void sendCreatePasswordEmail(BaseUserDTO createUserDTO, String token);
-
-    void sendResetPasswordEmail(String email, String username, String password);
+    void sendCreatePasswordEmail(SignupEmailRequest signupEmailRequest, String oneTimePassword);
 }

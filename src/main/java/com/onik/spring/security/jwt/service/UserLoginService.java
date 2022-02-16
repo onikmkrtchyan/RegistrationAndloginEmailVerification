@@ -1,12 +1,13 @@
 package com.onik.spring.security.jwt.service;
 
+import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
 import com.onik.spring.security.jwt.dtos.request.LoginRequest;
+import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
 import com.onik.spring.security.jwt.dtos.request.SignupRequest;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
 import com.onik.spring.security.jwt.security.services.UserDetailsImpl;
-
 
 public interface UserLoginService {
     JwtResponse getLoginRequest(LoginRequest loginRequest);
@@ -16,4 +17,8 @@ public interface UserLoginService {
     TokenRefreshResponse getRefreshTokenRequest(String request);
 
     String generateAndSaveRefreshToken(UserDetailsImpl userDetailsImpl);
+
+    Long create(SignupEmailRequest signupEmailRequest);
+
+    void updatePassword(CreatePasswordUserDTO createPasswordUserDTO);
 }

@@ -8,9 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.onik.spring.security.jwt.utils.Instances;
-import org.slf4j.Logger;
+import com.onik.spring.security.jwt.utils.PasswordUtils;
+import io.jsonwebtoken.Jwts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,13 +27,17 @@ import com.onik.spring.security.jwt.security.services.UserDetailsServiceImpl;
 import static com.onik.spring.security.jwt.utils.Instances.BEARER;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
+    private static final Logger LOGGER = LogManager.getLogger(AuthTokenFilter.class);
+
+    @Value("${onik.app.jwtSecret}")
+    private String jwtSecret;
+
     @Autowired
     private JwtUtils jwtUtils;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     public AuthTokenFilter() {
     }
@@ -40,18 +48,20 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+                LOGGER.info("Token signature is validated");
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
+//                validateJwtToken(jwt, userDetails.getPassword());//This used for email verification , makes token one time
+//                LOGGER.info("Token is validated");
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                LOGGER.info("Authentication is set");
             }
         } catch (Exception e) {
-            System.out.println("Cannot set user authentication: {}" + e.getMessage());
+            LOGGER.info("Cannot set user authentication: {}" + e.getMessage());
         }
         filterChain.doFilter(request, response);
     }
@@ -62,5 +72,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return headerAuth.substring(BEARER.length() + 1);
         }
         return null;
+    }
+
+    /**
+     * Validate jwt if user change or reset his password
+     */
+    public void validateJwtToken(String token, String password) {
+        LOGGER.info("JWT token validation by disfigured password");
+        if (getDisfiguredPasswordFromToken(token).equals(PasswordUtils.getDisfiguredPassword(password))) {
+            return;
+        }
+        LOGGER.error("JWT token is unsupported");
+        throw new RuntimeException("PermissionDeniedException");
+    }
+
+    public String getDisfiguredPasswordFromToken(String token) {
+        LOGGER.info("get disfigured password from token ");
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("password", String.class);
     }
 }
