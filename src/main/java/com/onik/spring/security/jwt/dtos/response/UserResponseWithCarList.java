@@ -1,7 +1,7 @@
 package com.onik.spring.security.jwt.dtos.response;
 
 import com.onik.spring.security.jwt.Entities.RoleEntity;
-import com.onik.spring.security.jwt.dtos.request.BaseCarDTO;
+import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import lombok.Getter;
 import lombok.Setter;
 

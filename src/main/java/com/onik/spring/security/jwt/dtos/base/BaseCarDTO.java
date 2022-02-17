@@ -1,4 +1,4 @@
-package com.onik.spring.security.jwt.dtos.request;
+package com.onik.spring.security.jwt.dtos.base;
 
 import lombok.Getter;
 import lombok.Setter;

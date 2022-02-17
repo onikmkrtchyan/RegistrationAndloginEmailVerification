@@ -3,7 +3,7 @@ package com.onik.spring.security.jwt.config;
 import com.onik.spring.security.jwt.Entities.CarEntity;
 import com.onik.spring.security.jwt.Entities.RoleEntity;
 import com.onik.spring.security.jwt.Entities.UserEntity;
-import com.onik.spring.security.jwt.dtos.request.BaseCarDTO;
+import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.dtos.response.UserResponseWithCarList;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-02-16T17:53:06+0400",
+    date = "2022-02-17T12:32:11+0400",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.14.1 (Amazon.com Inc.)"
 )
 public class DTOMapperImpl implements DTOMapper {

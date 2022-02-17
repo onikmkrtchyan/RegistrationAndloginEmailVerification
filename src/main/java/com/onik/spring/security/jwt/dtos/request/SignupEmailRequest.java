@@ -7,7 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -21,8 +20,8 @@ public class SignupEmailRequest {
     @Size(max = 50)
     @Email
     private String email;
-
-    private List<String> role;
+//    @NotBlank
+    private List<RoleRequest> role;
 }
 
 

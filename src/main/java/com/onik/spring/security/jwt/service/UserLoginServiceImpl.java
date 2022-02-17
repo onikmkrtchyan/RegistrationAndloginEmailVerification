@@ -2,6 +2,7 @@ package com.onik.spring.security.jwt.service;
 
 import com.onik.spring.security.jwt.Entities.RefreshTokenEntity;
 import com.onik.spring.security.jwt.Entities.RoleEntity;
+import com.onik.spring.security.jwt.dtos.request.RoleRequest;
 import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
 import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
 import com.onik.spring.security.jwt.security.services.RoleEnum;
@@ -111,7 +112,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             return new MessageResponse("Error: Email is already in use!");
         }
 
-        List<String> strRoles = signUpRequest.getRole();
+        List<RoleRequest> strRoles = signUpRequest.getRole();
         List<RoleEntity>  roleEntities = getRoleEntity(strRoles);
 
         UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(),
@@ -148,7 +149,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         return jwtRefreshToken;
     }
 
-    private List<RoleEntity>  getRoleEntity(List<String> strRoles) {
+    private List<RoleEntity>  getRoleEntity(List<RoleRequest> strRoles) {
         List<RoleEntity> roleEntities = new ArrayList<>();
         if (strRoles == null) {
             RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)
@@ -156,22 +157,9 @@ public class UserLoginServiceImpl implements UserLoginService {
             roleEntities.add(userRoleEntity);
         } else {
             strRoles.forEach(role -> {
-                switch (role.toLowerCase().trim()) {
-                    case "admin":
-                        RoleEntity adminRoleEntity = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roleEntities.add(adminRoleEntity);
-                        break;
-                    case "mod":
-                        RoleEntity modRoleEntity = roleRepository.findByName(RoleEnum.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roleEntities.add(modRoleEntity);
-                        break;
-                    default:
-                        RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roleEntities.add(userRoleEntity);
-                }
+                RoleEntity modRoleEntity = roleRepository.findByName(role.getName())
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roleEntities.add(modRoleEntity);
             });
         }
         return roleEntities;

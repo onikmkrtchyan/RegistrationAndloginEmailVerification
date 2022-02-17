@@ -3,7 +3,7 @@ package com.onik.spring.security.jwt.config;
 
 import com.onik.spring.security.jwt.Entities.CarEntity;
 import com.onik.spring.security.jwt.Entities.UserEntity;
-import com.onik.spring.security.jwt.dtos.request.BaseCarDTO;
+import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.dtos.response.UserResponseWithCarList;
 import org.mapstruct.Mapper;

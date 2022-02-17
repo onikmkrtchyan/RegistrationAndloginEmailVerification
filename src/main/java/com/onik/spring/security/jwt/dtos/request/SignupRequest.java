@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 @Getter
@@ -20,7 +21,8 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private List<String> role;
+    @Valid
+    private List<RoleRequest> role;
 
     @NotBlank
     @ValidPassword

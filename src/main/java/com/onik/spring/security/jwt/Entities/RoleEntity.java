@@ -1,7 +1,6 @@
 package com.onik.spring.security.jwt.Entities;
 
 import com.onik.spring.security.jwt.security.services.RoleEnum;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

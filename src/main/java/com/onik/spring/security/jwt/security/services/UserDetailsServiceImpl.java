@@ -1,7 +1,7 @@
 package com.onik.spring.security.jwt.security.services;
 
 import com.onik.spring.security.jwt.config.DTOMapper;
-import com.onik.spring.security.jwt.dtos.request.BaseCarDTO;
+import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import com.onik.spring.security.jwt.dtos.response.UserResponseWithCarList;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;

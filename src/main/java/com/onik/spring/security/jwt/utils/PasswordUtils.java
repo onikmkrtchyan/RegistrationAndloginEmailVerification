@@ -1,7 +1,6 @@
 package com.onik.spring.security.jwt.utils;
 
 
-import com.onik.spring.security.jwt.dtos.request.ChangePasswordDTO;
 import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
 import org.apache.commons.lang3.RandomStringUtils;
 import java.nio.charset.StandardCharsets;
@@ -26,13 +25,6 @@ public class PasswordUtils {
     public static void comparePasswords(CreatePasswordUserDTO createPasswordUserDTO) {
         if (createPasswordUserDTO.getPassword().equals(createPasswordUserDTO.getRepeatedPassword()))
             return;
-        throw new RuntimeException("Password mismatch");
-    }
-
-    public static void comparePasswords(ChangePasswordDTO changePasswordDTO) {
-        if (changePasswordDTO.getNewPassword1().equals(changePasswordDTO.getNewPassword2())) {
-            return;
-        }
         throw new RuntimeException("Password mismatch");
     }
 }
