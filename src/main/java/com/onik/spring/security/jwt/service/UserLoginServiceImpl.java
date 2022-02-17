@@ -54,6 +54,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(signupEmailRequest.getUsername());
         userEntity.setEmail(signupEmailRequest.getEmail());
+        userEntity.setRole(getRoleEntity(signupEmailRequest.getRole()));
         String oneTimePassword = generate();
         userEntity.setPassword(oneTimePassword);
         userRepository.save(userEntity);
@@ -149,14 +150,14 @@ public class UserLoginServiceImpl implements UserLoginService {
         return jwtRefreshToken;
     }
 
-    private List<RoleEntity>  getRoleEntity(List<RoleRequest> strRoles) {
+    private List<RoleEntity>  getRoleEntity(List<RoleRequest> roles) {
         List<RoleEntity> roleEntities = new ArrayList<>();
-        if (strRoles == null) {
+        if (roles == null) {
             RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roleEntities.add(userRoleEntity);
         } else {
-            strRoles.forEach(role -> {
+            roles.forEach(role -> {
                 RoleEntity modRoleEntity = roleRepository.findByName(role.getName())
                         .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                 roleEntities.add(modRoleEntity);
