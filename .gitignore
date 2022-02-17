@@ -4,14 +4,13 @@ Thumbs.db
 build/
 target/
 out/
-.idea
+.idea/
 *.iml
 *.ipr
 *.iws
 .project
 .settings
 .classpath
-.factorypath
 
 /logs/*.log
 /logs/archive/*.gz
