@@ -1,9 +1,6 @@
 package com.onik.spring.security.jwt.service;
 
-import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
-import com.onik.spring.security.jwt.dtos.request.LoginRequest;
-import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
-import com.onik.spring.security.jwt.dtos.request.SignupRequest;
+import com.onik.spring.security.jwt.dtos.request.*;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
@@ -21,4 +18,8 @@ public interface UserLoginService {
     Long create(SignupEmailRequest signupEmailRequest);
 
     void updatePassword(CreatePasswordUserDTO createPasswordUserDTO);
+
+    Long createApartment(ApartmentRequest apartmentRequest);
+
+    void setUserApartment(UserApartmentRequest userApartmentRequest);
 }

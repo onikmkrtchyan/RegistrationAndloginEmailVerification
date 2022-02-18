@@ -16,5 +16,7 @@ public interface DTOMapper {
 
     UserResponseWithCarList toUserDTOWithCars(UserEntity userEntity);
 
-    BaseCarDTO toBaseCarDTO(CarEntity carEntity);
+//    BaseCarDTO toBaseCarDTO(CarEntity carEntity);
+
+    UserResponseWithCarList toDTO(UserEntity userEntity);
 }

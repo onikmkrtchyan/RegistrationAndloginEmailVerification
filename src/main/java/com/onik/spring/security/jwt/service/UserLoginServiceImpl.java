@@ -1,22 +1,14 @@
 package com.onik.spring.security.jwt.service;
 
-import com.onik.spring.security.jwt.Entities.RefreshTokenEntity;
-import com.onik.spring.security.jwt.Entities.RoleEntity;
-import com.onik.spring.security.jwt.dtos.request.RoleRequest;
-import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
-import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
+import com.onik.spring.security.jwt.Entities.*;
+import com.onik.spring.security.jwt.dtos.request.*;
+import com.onik.spring.security.jwt.repository.*;
 import com.onik.spring.security.jwt.security.services.RoleEnum;
-import com.onik.spring.security.jwt.Entities.UserEntity;
-import com.onik.spring.security.jwt.dtos.request.LoginRequest;
-import com.onik.spring.security.jwt.dtos.request.SignupRequest;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
 import com.onik.spring.security.jwt.exception.TokenRefreshException;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
-import com.onik.spring.security.jwt.repository.RefreshTokenRepository;
-import com.onik.spring.security.jwt.repository.RoleRepository;
-import com.onik.spring.security.jwt.repository.UserRepository;
 import com.onik.spring.security.jwt.security.jwt.JwtUtils;
 import com.onik.spring.security.jwt.security.services.UserDetailsImpl;
 import com.onik.spring.security.jwt.service.mail.EmailSenderService;
@@ -47,6 +39,8 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final UserDetailsService userDetailsService;
     private final EmailSenderService emailSenderService;
     private final PasswordEncoder passwordEncoder;
+    private final ApartmentRepository apartmentRepository;
+    private final UserApartmentRepository userApartmentRepository;
 
     @Override
     @Transactional
@@ -54,7 +48,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(signupEmailRequest.getUsername());
         userEntity.setEmail(signupEmailRequest.getEmail());
-        userEntity.setRole(getRoleEntity(signupEmailRequest.getRole()));
+        userEntity.setRoles(getRoleEntity(signupEmailRequest.getRoles()));
         String oneTimePassword = generate();
         userEntity.setPassword(oneTimePassword);
         userRepository.save(userEntity);
@@ -62,6 +56,24 @@ public class UserLoginServiceImpl implements UserLoginService {
         return userEntity.getId();
     }
 
+    @Override
+    @Transactional
+    public Long createApartment(ApartmentRequest apartmentRequest){
+        ApartmentEntity apartmentEntity = new ApartmentEntity();
+        apartmentEntity.setFloor(apartmentRequest.getFloor());
+        apartmentEntity.setNumber(apartmentRequest.getNumber());
+        apartmentEntity.setAddress(apartmentRequest.getAddress());
+        apartmentRepository.save(apartmentEntity);
+        return apartmentEntity.getId();
+    }
+
+    @Override
+    public void setUserApartment(UserApartmentRequest userApartmentRequest) {
+        UserApartmentEntity userApartmentEntity = new UserApartmentEntity();
+        userApartmentEntity.setApartment(apartmentRepository.getById(userApartmentRequest.getApartmentId()));
+        userApartmentEntity.setUser(userRepository.getById(userApartmentRequest.getUserId()));
+        userApartmentRepository.save(userApartmentEntity);
+    }
 
     @Override
     @Transactional
@@ -113,7 +125,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             return new MessageResponse("Error: Email is already in use!");
         }
 
-        List<RoleRequest> strRoles = signUpRequest.getRole();
+        List<RoleRequest> strRoles = signUpRequest.getRoles();
         List<RoleEntity>  roleEntities = getRoleEntity(strRoles);
 
         UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(),

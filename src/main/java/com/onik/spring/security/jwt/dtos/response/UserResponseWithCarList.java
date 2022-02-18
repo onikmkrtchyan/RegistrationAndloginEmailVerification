@@ -1,7 +1,5 @@
 package com.onik.spring.security.jwt.dtos.response;
 
-import com.onik.spring.security.jwt.Entities.RoleEntity;
-import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserResponseWithCarList{
+public class UserResponseWithCarList {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -22,7 +20,9 @@ public class UserResponseWithCarList{
     @Email
     private String email;
 
-    private List<RoleEntity> role;
+    private List<RoleResponse> roles;
 
-    List<BaseCarDTO> carResponses;
+    private List<CarResponse> cars;
+
+    private List<ApartmentResponse> apartments;
 }

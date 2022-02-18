@@ -3,6 +3,7 @@ package com.onik.spring.security.jwt.controllers;
 import com.onik.spring.security.jwt.dtos.request.CarCreateRequest;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.security.services.CarService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/car")
 public class CarController {
-    CarService carService;
-
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
+   private final CarService carService;
 
     @PostMapping
     public ResponseEntity<Long> create(@Valid @RequestBody CarCreateRequest carCreateRequest){

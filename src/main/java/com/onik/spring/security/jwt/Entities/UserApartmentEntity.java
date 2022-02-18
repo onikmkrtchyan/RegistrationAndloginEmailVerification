@@ -4,21 +4,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "car")
-public class CarEntity {
+@Table(name = "user_apartment")
+public class UserApartmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String model;
-    private String color;
-    @Column(unique = true)
-    private String carNumber;
 
+    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id")
     private UserEntity user;
+
+    @JoinColumn(name = "apartment_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ApartmentEntity apartment;
 }

@@ -34,6 +34,7 @@ public class CarService {
         carEntity.setCarNumber(carCreateRequest.getCarNumber());
         carEntity.setUser(userRepository.getById(carCreateRequest.getUserId()));
         carRepository.save(carEntity);
+//        carEntity.setCarNumber("7637653");
         return carEntity.getId();
     }
 
@@ -55,8 +56,8 @@ public class CarService {
         }
     }
 
-    public List<BaseCarDTO> getCarsByUserId(Long id) {
+    public List<CarResponse> getCarsByUserId(Long id) {
         List<CarEntity> carEntities = carRepository.findByUserId(id);
-        return carEntities.stream().map(dtoMapper::toBaseCarDTO).collect(Collectors.toList());
+        return carEntities.stream().map(dtoMapper::toResponse).collect(Collectors.toList());
     }
 }

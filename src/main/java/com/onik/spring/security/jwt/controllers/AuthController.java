@@ -23,12 +23,13 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         MessageResponse messageResponse = userLoginService.getSignupRequest(signUpRequest);
         return ResponseEntity.ok(messageResponse);
     }
+
     @PostMapping("/signup_email")
-    public ResponseEntity<?> registerUserEmail(@Valid @RequestBody SignupEmailRequest signUpEmailRequest) {
+    public ResponseEntity<Long> registerUserEmail(@Valid @RequestBody SignupEmailRequest signUpEmailRequest) {
         Long id = userLoginService.create(signUpEmailRequest);
         return ResponseEntity.ok(id);
     }
@@ -39,19 +40,19 @@ public class AuthController {
     }
 
     @PostMapping("/signing")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         JwtResponse jwtResponse = userLoginService.getLoginRequest(loginRequest);
         return ResponseEntity.ok(jwtResponse);
     }
 
     @PostMapping("/refreshtoken")
-    public ResponseEntity<?> refreshtoken(@Valid @RequestHeader(value = "Authorization") String refreshToken) {
+    public ResponseEntity<TokenRefreshResponse> refreshtoken(@Valid @RequestHeader(value = "Authorization") String refreshToken) {
         TokenRefreshResponse tokenRefreshResponse = userLoginService.getRefreshTokenRequest(refreshToken);
         return ResponseEntity.ok(tokenRefreshResponse);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser(@Valid @RequestHeader(value = "Authorization") String refreshToken) {
+    public ResponseEntity<MessageResponse> logoutUser(@Valid @RequestHeader(value = "Authorization") String refreshToken) {
         MessageResponse messageResponse = refreshTokenService.deleteByRefreshToken(refreshToken);
         return ResponseEntity.ok(messageResponse);
     }

@@ -15,14 +15,14 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
-    private final List<String> role;
+    private final List<String> roles;
 
-    public JwtResponse(String accessToken, String refreshToken, Long id, String username, String email, List<String> role) {
+    public JwtResponse(String accessToken, String refreshToken, Long id, String username, String email, List<String> roles) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;
         this.username = username;
         this.email = email;
-        this.role = role;
+        this.roles = roles;
     }
 }

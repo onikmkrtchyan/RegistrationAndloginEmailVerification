@@ -23,7 +23,7 @@ public class SignupRequest {
 
     @Valid
     @NotEmpty
-    private List<RoleRequest> role;
+    private List<RoleRequest> roles;
 
     @NotBlank
     @ValidPassword

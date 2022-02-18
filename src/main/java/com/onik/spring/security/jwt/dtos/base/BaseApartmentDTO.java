@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class BaseApartmentDTO {
     private String address;
+    private int floor;
+    private int number;
 }

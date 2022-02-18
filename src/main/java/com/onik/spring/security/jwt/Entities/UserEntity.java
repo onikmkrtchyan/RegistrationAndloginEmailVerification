@@ -23,11 +23,11 @@ public class UserEntity {
     private String email;
     private String password;
 
-    public UserEntity(String username, String email, String password, List<RoleEntity> role) {
+    public UserEntity(String username, String email, String password, List<RoleEntity> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -36,5 +36,16 @@ public class UserEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<RoleEntity> role;
+    private List<RoleEntity> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_apartment",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "apartment_id")
+    )
+    private List<ApartmentEntity> apartments;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<CarEntity> cars;
 }

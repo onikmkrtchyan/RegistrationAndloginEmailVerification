@@ -21,7 +21,7 @@ public class SignupEmailRequest {
     @Email
     private String email;
 
-    private List<RoleRequest> role;
+    private List<RoleRequest> roles;
 }
 
 
