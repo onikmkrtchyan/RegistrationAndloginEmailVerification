@@ -36,10 +36,22 @@ public class UserDetailServiceImpl implements UserDetailService {
 
     @Override
     public void setUserApartment(UserApartmentRequest userApartmentRequest) {
+        setApartment(userApartmentRequest);
+    }
+
+    @Override
+    public void setUserApartments(UserApartmentsRequest userApartmentsRequest) {
+
+        for (UserApartmentRequest userApartmentsRequest1 : userApartmentsRequest.getUserApartmentRequests()) {
+            setApartment(userApartmentsRequest1);
+        }
+    }
+
+    private void setApartment(UserApartmentRequest userApartmentsRequest1) {
         List<UserApartmentEntity> userApartmentEntities = new ArrayList<>();
 
-        UserEntity userEntity = userRepository.getById(userApartmentRequest.getUserId());
-        List<ApartmentEntity> apartmentEntities = apartmentRepository.findAllByIdIn(userApartmentRequest.getApartmentIds());
+        UserEntity userEntity = userRepository.getById(userApartmentsRequest1.getUserId());
+        List<ApartmentEntity> apartmentEntities = apartmentRepository.findAllByIdIn(userApartmentsRequest1.getApartmentIds());
 
         for (ApartmentEntity apartmentEntity : apartmentEntities) {
             UserApartmentEntity userApartmentEntity = new UserApartmentEntity();
@@ -47,26 +59,6 @@ public class UserDetailServiceImpl implements UserDetailService {
             userApartmentEntity.setUser(userEntity);
             userApartmentEntities.add(userApartmentEntity);
         }
-
         userApartmentRepository.saveAll(userApartmentEntities);
-    }
-
-    @Override
-    public void setUserApartments(UserApartmentsRequest userApartmentsRequest) {
-
-        for (UserApartmentRequest userApartmentsRequest1 : userApartmentsRequest.getUserApartmentRequests()) {
-            List<UserApartmentEntity> userApartmentEntities = new ArrayList<>();
-
-            UserEntity userEntity = userRepository.getById(userApartmentsRequest1.getUserId());
-            List<ApartmentEntity> apartmentEntities = apartmentRepository.findAllByIdIn(userApartmentsRequest1.getApartmentIds());
-
-            for (ApartmentEntity apartmentEntity : apartmentEntities) {
-                UserApartmentEntity userApartmentEntity = new UserApartmentEntity();
-                userApartmentEntity.setApartment(apartmentEntity);
-                userApartmentEntity.setUser(userEntity);
-                userApartmentEntities.add(userApartmentEntity);
-            }
-            userApartmentRepository.saveAll(userApartmentEntities);
-        }
     }
 }
