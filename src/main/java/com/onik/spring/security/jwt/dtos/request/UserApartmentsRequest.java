@@ -7,7 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserApartmentRequest {
-    private Long userId;
-    private List<Long> apartmentIds;
+public class UserApartmentsRequest {
+    private List<UserApartmentRequest> userApartmentRequests;
 }

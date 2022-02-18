@@ -4,7 +4,11 @@ import com.onik.spring.security.jwt.Entities.ApartmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ApartmentRepository extends JpaRepository<ApartmentEntity, Long>{
-    ApartmentEntity getById(Long apartmentId);
+    ApartmentEntity getById(Long id);
+
+    List<ApartmentEntity> findAllByIdIn(List<Long> id);
 }

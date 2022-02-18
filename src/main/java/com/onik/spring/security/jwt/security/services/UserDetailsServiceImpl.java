@@ -45,8 +45,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<UserResponseWithCarList> getAllUsersWithData() {
         List<UserEntity> userEntityList =
                 userRepository.findAll(UserEntitySpec.getAllWithCars());
-                userRepository.findAll(UserEntitySpec.getAllWithRoles());
-                userRepository.findAll(UserEntitySpec.getAllWithApartments());
+        userRepository.findAll(UserEntitySpec.getAllWithRoles());
+        userRepository.findAll(UserEntitySpec.getAllWithApartments());
 
         return userEntityList.stream().map(dtoMapper::toDTO).collect(Collectors.toList());
     }

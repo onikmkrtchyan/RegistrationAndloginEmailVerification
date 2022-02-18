@@ -2,7 +2,8 @@ package com.onik.spring.security.jwt.controllers;
 
 import com.onik.spring.security.jwt.dtos.request.ApartmentRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentRequest;
-import com.onik.spring.security.jwt.service.UserLoginService;
+import com.onik.spring.security.jwt.dtos.request.UserApartmentsRequest;
+import com.onik.spring.security.jwt.service.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,17 +17,23 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/apartment")
 public class ApartmentController {
-    private final UserLoginService userLoginService;
+    private final UserDetailService userDetailService;
 
     @PostMapping()
     public ResponseEntity<Long> registerUserEmail(@Valid @RequestBody ApartmentRequest apartmentRequest){
-        Long id =  userLoginService.createApartment(apartmentRequest);
+        Long id =  userDetailService.createApartment(apartmentRequest);
         return ResponseEntity.ok(id);
     }
 
     @PostMapping("/setApartment")
     public void setApartment(@Valid @RequestBody UserApartmentRequest userApartmentRequest){
-        userLoginService.setUserApartment(userApartmentRequest);
+        userDetailService.setUserApartment(userApartmentRequest);
     }
+
+    @PostMapping("/setApartments")
+    public void setApartments(@Valid @RequestBody UserApartmentsRequest userApartmentsRequest){
+        userDetailService.setUserApartments(userApartmentsRequest);
+    }
+
 
 }

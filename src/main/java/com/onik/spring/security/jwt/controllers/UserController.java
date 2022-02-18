@@ -16,8 +16,8 @@ import java.util.List;
 public class UserController {
     private final UserDetailsServiceImpl userService;
 
-    //get all cars by user_id
-    @GetMapping("/{id}/cars")
+    //get user details by user_id
+    @GetMapping("/{id}/details")
     public ResponseEntity<UserResponseWithCarList> getCarsById(@PathVariable Long id) {
         UserResponseWithCarList userResponseWithCarList = userService.getWithCars(id);
         return ResponseEntity.ok(userResponseWithCarList);

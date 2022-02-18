@@ -19,7 +19,4 @@ public interface UserLoginService {
 
     void updatePassword(CreatePasswordUserDTO createPasswordUserDTO);
 
-    Long createApartment(ApartmentRequest apartmentRequest);
-
-    void setUserApartment(UserApartmentRequest userApartmentRequest);
 }

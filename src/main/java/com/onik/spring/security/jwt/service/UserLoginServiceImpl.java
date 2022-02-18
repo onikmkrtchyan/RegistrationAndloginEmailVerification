@@ -39,8 +39,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final UserDetailsService userDetailsService;
     private final EmailSenderService emailSenderService;
     private final PasswordEncoder passwordEncoder;
-    private final ApartmentRepository apartmentRepository;
-    private final UserApartmentRepository userApartmentRepository;
+
 
     @Override
     @Transactional
@@ -54,25 +53,6 @@ public class UserLoginServiceImpl implements UserLoginService {
         userRepository.save(userEntity);
         emailSenderService.sendCreatePasswordEmail(signupEmailRequest, oneTimePassword);
         return userEntity.getId();
-    }
-
-    @Override
-    @Transactional
-    public Long createApartment(ApartmentRequest apartmentRequest){
-        ApartmentEntity apartmentEntity = new ApartmentEntity();
-        apartmentEntity.setFloor(apartmentRequest.getFloor());
-        apartmentEntity.setNumber(apartmentRequest.getNumber());
-        apartmentEntity.setAddress(apartmentRequest.getAddress());
-        apartmentRepository.save(apartmentEntity);
-        return apartmentEntity.getId();
-    }
-
-    @Override
-    public void setUserApartment(UserApartmentRequest userApartmentRequest) {
-        UserApartmentEntity userApartmentEntity = new UserApartmentEntity();
-        userApartmentEntity.setApartment(apartmentRepository.getById(userApartmentRequest.getApartmentId()));
-        userApartmentEntity.setUser(userRepository.getById(userApartmentRequest.getUserId()));
-        userApartmentRepository.save(userApartmentEntity);
     }
 
     @Override
