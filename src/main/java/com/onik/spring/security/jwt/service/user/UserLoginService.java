@@ -1,4 +1,4 @@
-package com.onik.spring.security.jwt.service;
+package com.onik.spring.security.jwt.service.user;
 
 import com.onik.spring.security.jwt.dtos.request.*;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;

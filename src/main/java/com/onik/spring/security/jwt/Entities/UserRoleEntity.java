@@ -11,10 +11,6 @@ import javax.persistence.*;
 @Table(name = "user_role")
 public class UserRoleEntity {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-
     @EmbeddedId
     private UserRoleEntityKey id;
 
@@ -25,5 +21,4 @@ public class UserRoleEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     private UserEntity user;
-
 }

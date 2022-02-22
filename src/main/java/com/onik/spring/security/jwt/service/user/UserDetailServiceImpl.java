@@ -1,4 +1,4 @@
-package com.onik.spring.security.jwt.service;
+package com.onik.spring.security.jwt.service.user;
 
 import com.onik.spring.security.jwt.Entities.ApartmentEntity;
 import com.onik.spring.security.jwt.Entities.UserApartmentEntity;
@@ -41,10 +41,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 
     @Override
     public void setUserApartments(UserApartmentsRequest userApartmentsRequest) {
-
-        for (UserApartmentRequest userApartmentsRequest1 : userApartmentsRequest.getUserApartmentRequests()) {
-            setApartment(userApartmentsRequest1);
-        }
+        userApartmentsRequest.getUserApartmentRequests().parallelStream().forEach(this::setApartment);
     }
 
     private void setApartment(UserApartmentRequest userApartmentsRequest1) {
@@ -53,12 +50,13 @@ public class UserDetailServiceImpl implements UserDetailService {
         UserEntity userEntity = userRepository.getById(userApartmentsRequest1.getUserId());
         List<ApartmentEntity> apartmentEntities = apartmentRepository.findAllByIdIn(userApartmentsRequest1.getApartmentIds());
 
-        for (ApartmentEntity apartmentEntity : apartmentEntities) {
+        apartmentEntities.parallelStream().forEach(apartmentEntity -> {
             UserApartmentEntity userApartmentEntity = new UserApartmentEntity();
             userApartmentEntity.setApartment(apartmentEntity);
             userApartmentEntity.setUser(userEntity);
             userApartmentEntities.add(userApartmentEntity);
-        }
+        });
+
         userApartmentRepository.saveAll(userApartmentEntities);
     }
 }

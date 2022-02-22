@@ -2,7 +2,6 @@ package com.onik.spring.security.jwt.security.services;
 
 import com.onik.spring.security.jwt.Entities.CarEntity;
 import com.onik.spring.security.jwt.config.DTOMapper;
-import com.onik.spring.security.jwt.dtos.base.BaseCarDTO;
 import com.onik.spring.security.jwt.dtos.request.CarCreateRequest;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
@@ -25,7 +24,7 @@ public class CarService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long create(CarCreateRequest carCreateRequest){
+    public Long create(CarCreateRequest carCreateRequest) {
         checkCarNumber(carCreateRequest);
         checkID(carCreateRequest);
         CarEntity carEntity = new CarEntity();
@@ -45,13 +44,13 @@ public class CarService {
     }
 
     private void checkID(CarCreateRequest carCreateRequest) {
-        if(!userRepository.existsById(carCreateRequest.getUserId())){
+        if (!userRepository.existsById(carCreateRequest.getUserId())) {
             throw new UserNotFoundException(carCreateRequest.getUserId());
         }
     }
 
     private void checkCarNumber(CarCreateRequest carCreateRequest) {
-        if(carRepository.existsByCarNumber(carCreateRequest.getCarNumber())){
+        if (carRepository.existsByCarNumber(carCreateRequest.getCarNumber())) {
             throw new RuntimeException(carCreateRequest.getCarNumber());
         }
     }

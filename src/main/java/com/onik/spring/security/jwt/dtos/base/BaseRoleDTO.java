@@ -4,6 +4,7 @@ import com.onik.spring.security.jwt.security.services.RoleEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
 import javax.validation.constraints.NotNull;
 
 @Getter

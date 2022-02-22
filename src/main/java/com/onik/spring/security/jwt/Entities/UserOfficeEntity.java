@@ -10,17 +10,19 @@ import javax.persistence.*;
 @Setter
 @Entity
 @RequiredArgsConstructor
-@Table(name = "apartment")
-public class ApartmentEntity {
+@Table(name = "user_office")
+public class UserOfficeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private int floor;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(unique = true)
+    private UserEntity user;
 
-    private int number;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private OfficeEntity office;
 
     @Column(nullable = false)
-    private String address;
+    private Boolean isRemote;
 }

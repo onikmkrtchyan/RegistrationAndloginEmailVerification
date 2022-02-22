@@ -1,4 +1,4 @@
-package com.onik.spring.security.jwt.service;
+package com.onik.spring.security.jwt.service.user;
 
 import com.onik.spring.security.jwt.dtos.request.ApartmentRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentRequest;
@@ -11,5 +11,4 @@ public interface UserDetailService {
     void setUserApartment(UserApartmentRequest userApartmentRequest);
 
     void setUserApartments(UserApartmentsRequest userApartmentsRequest);
-
 }

@@ -9,13 +9,13 @@ import java.util.List;
 @Getter
 @Setter
 public class JwtResponse {
+    private final List<String> roles;
     private String accessToken;
     private String tokenType = Instances.BEARER;
     private String refreshToken;
     private Long id;
     private String username;
     private String email;
-    private final List<String> roles;
 
     public JwtResponse(String accessToken, String refreshToken, Long id, String username, String email, List<String> roles) {
         this.accessToken = accessToken;

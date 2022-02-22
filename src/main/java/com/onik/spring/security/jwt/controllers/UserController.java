@@ -1,7 +1,7 @@
 package com.onik.spring.security.jwt.controllers;
 
 
-import com.onik.spring.security.jwt.dtos.response.UserResponseWithCarList;
+import com.onik.spring.security.jwt.dtos.response.UserResponseWithDetails;
 import com.onik.spring.security.jwt.security.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +18,14 @@ public class UserController {
 
     //get user details by user_id
     @GetMapping("/{id}/details")
-    public ResponseEntity<UserResponseWithCarList> getCarsById(@PathVariable Long id) {
-        UserResponseWithCarList userResponseWithCarList = userService.getWithCars(id);
-        return ResponseEntity.ok(userResponseWithCarList);
+    public ResponseEntity<UserResponseWithDetails> getCarsById(@PathVariable Long id) {
+        UserResponseWithDetails userResponseWithDetails = userService.getWithDetails(id);
+        return ResponseEntity.ok(userResponseWithDetails);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponseWithCarList>> getAllUsersWithData() {
-        List<UserResponseWithCarList> userResponseWithCarList = userService.getAllUsersWithData();
-        return ResponseEntity.ok(userResponseWithCarList);
+    public ResponseEntity<List<UserResponseWithDetails>> getAllUsersWithData() {
+        List<UserResponseWithDetails> userResponseWithDetails = userService.getAllUsersWithData();
+        return ResponseEntity.ok(userResponseWithDetails);
     }
 }

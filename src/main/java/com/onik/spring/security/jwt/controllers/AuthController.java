@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import com.onik.spring.security.jwt.dtos.request.CreatePasswordUserDTO;
 import com.onik.spring.security.jwt.dtos.request.SignupEmailRequest;
-import com.onik.spring.security.jwt.service.UserLoginService;
+import com.onik.spring.security.jwt.service.user.UserLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

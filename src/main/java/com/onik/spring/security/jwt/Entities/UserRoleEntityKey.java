@@ -17,5 +17,4 @@ class UserRoleEntityKey implements Serializable {
 
     @Column
     private Long roleId;
-
 }

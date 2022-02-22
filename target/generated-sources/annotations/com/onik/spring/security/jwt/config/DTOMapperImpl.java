@@ -2,19 +2,23 @@ package com.onik.spring.security.jwt.config;
 
 import com.onik.spring.security.jwt.Entities.ApartmentEntity;
 import com.onik.spring.security.jwt.Entities.CarEntity;
+import com.onik.spring.security.jwt.Entities.OfficeEntity;
 import com.onik.spring.security.jwt.Entities.RoleEntity;
 import com.onik.spring.security.jwt.Entities.UserEntity;
+import com.onik.spring.security.jwt.Entities.UserOfficeEntity;
 import com.onik.spring.security.jwt.dtos.response.ApartmentResponse;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
+import com.onik.spring.security.jwt.dtos.response.OfficeResponse;
 import com.onik.spring.security.jwt.dtos.response.RoleResponse;
-import com.onik.spring.security.jwt.dtos.response.UserResponseWithCarList;
+import com.onik.spring.security.jwt.dtos.response.UserOfficeResponse;
+import com.onik.spring.security.jwt.dtos.response.UserResponseWithDetails;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-02-18T18:29:50+0400",
+    date = "2022-02-22T18:18:15+0400",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.14.1 (Amazon.com Inc.)"
 )
 public class DTOMapperImpl implements DTOMapper {
@@ -36,37 +40,39 @@ public class DTOMapperImpl implements DTOMapper {
     }
 
     @Override
-    public UserResponseWithCarList toUserDTOWithCars(UserEntity userEntity) {
+    public UserResponseWithDetails toUserDTOWithCars(UserEntity userEntity) {
         if ( userEntity == null ) {
             return null;
         }
 
-        UserResponseWithCarList userResponseWithCarList = new UserResponseWithCarList();
+        UserResponseWithDetails userResponseWithDetails = new UserResponseWithDetails();
 
-        userResponseWithCarList.setUsername( userEntity.getUsername() );
-        userResponseWithCarList.setEmail( userEntity.getEmail() );
-        userResponseWithCarList.setRoles( roleEntityListToRoleResponseList( userEntity.getRoles() ) );
-        userResponseWithCarList.setCars( carEntityListToCarResponseList( userEntity.getCars() ) );
-        userResponseWithCarList.setApartments( apartmentEntityListToApartmentResponseList( userEntity.getApartments() ) );
+        userResponseWithDetails.setUsername( userEntity.getUsername() );
+        userResponseWithDetails.setEmail( userEntity.getEmail() );
+        userResponseWithDetails.setRoles( roleEntityListToRoleResponseList( userEntity.getRoles() ) );
+        userResponseWithDetails.setCars( carEntityListToCarResponseList( userEntity.getCars() ) );
+        userResponseWithDetails.setApartments( apartmentEntityListToApartmentResponseList( userEntity.getApartments() ) );
+        userResponseWithDetails.setUserOffice( userOfficeEntityToUserOfficeResponse( userEntity.getUserOffice() ) );
 
-        return userResponseWithCarList;
+        return userResponseWithDetails;
     }
 
     @Override
-    public UserResponseWithCarList toDTO(UserEntity userEntity) {
+    public UserResponseWithDetails toDTO(UserEntity userEntity) {
         if ( userEntity == null ) {
             return null;
         }
 
-        UserResponseWithCarList userResponseWithCarList = new UserResponseWithCarList();
+        UserResponseWithDetails userResponseWithDetails = new UserResponseWithDetails();
 
-        userResponseWithCarList.setUsername( userEntity.getUsername() );
-        userResponseWithCarList.setEmail( userEntity.getEmail() );
-        userResponseWithCarList.setRoles( roleEntityListToRoleResponseList( userEntity.getRoles() ) );
-        userResponseWithCarList.setCars( carEntityListToCarResponseList( userEntity.getCars() ) );
-        userResponseWithCarList.setApartments( apartmentEntityListToApartmentResponseList( userEntity.getApartments() ) );
+        userResponseWithDetails.setUsername( userEntity.getUsername() );
+        userResponseWithDetails.setEmail( userEntity.getEmail() );
+        userResponseWithDetails.setRoles( roleEntityListToRoleResponseList( userEntity.getRoles() ) );
+        userResponseWithDetails.setCars( carEntityListToCarResponseList( userEntity.getCars() ) );
+        userResponseWithDetails.setApartments( apartmentEntityListToApartmentResponseList( userEntity.getApartments() ) );
+        userResponseWithDetails.setUserOffice( userOfficeEntityToUserOfficeResponse( userEntity.getUserOffice() ) );
 
-        return userResponseWithCarList;
+        return userResponseWithDetails;
     }
 
     protected RoleResponse roleEntityToRoleResponse(RoleEntity roleEntity) {
@@ -132,5 +138,33 @@ public class DTOMapperImpl implements DTOMapper {
         }
 
         return list1;
+    }
+
+    protected OfficeResponse officeEntityToOfficeResponse(OfficeEntity officeEntity) {
+        if ( officeEntity == null ) {
+            return null;
+        }
+
+        OfficeResponse officeResponse = new OfficeResponse();
+
+        officeResponse.setNumber( officeEntity.getNumber() );
+        officeResponse.setAddress( officeEntity.getAddress() );
+
+        return officeResponse;
+    }
+
+    protected UserOfficeResponse userOfficeEntityToUserOfficeResponse(UserOfficeEntity userOfficeEntity) {
+        if ( userOfficeEntity == null ) {
+            return null;
+        }
+
+        UserOfficeResponse userOfficeResponse = new UserOfficeResponse();
+
+        if ( userOfficeEntity.getIsRemote() != null ) {
+            userOfficeResponse.setIsRemote( String.valueOf( userOfficeEntity.getIsRemote() ) );
+        }
+        userOfficeResponse.setOffice( officeEntityToOfficeResponse( userOfficeEntity.getOffice() ) );
+
+        return userOfficeResponse;
     }
 }

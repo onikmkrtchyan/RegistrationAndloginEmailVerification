@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserResponseWithCarList {
+public class UserResponseWithDetails {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -25,4 +25,8 @@ public class UserResponseWithCarList {
     private List<CarResponse> cars;
 
     private List<ApartmentResponse> apartments;
+
+//    private OfficeResponse office;
+
+    private UserOfficeResponse userOffice;
 }

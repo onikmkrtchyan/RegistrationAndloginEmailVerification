@@ -1,15 +1,19 @@
-package com.onik.spring.security.jwt.service;
+package com.onik.spring.security.jwt.service.user;
 
-import com.onik.spring.security.jwt.Entities.*;
+import com.onik.spring.security.jwt.Entities.RefreshTokenEntity;
+import com.onik.spring.security.jwt.Entities.RoleEntity;
+import com.onik.spring.security.jwt.Entities.UserEntity;
 import com.onik.spring.security.jwt.dtos.request.*;
-import com.onik.spring.security.jwt.repository.*;
-import com.onik.spring.security.jwt.security.services.RoleEnum;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
 import com.onik.spring.security.jwt.exception.TokenRefreshException;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
+import com.onik.spring.security.jwt.repository.RefreshTokenRepository;
+import com.onik.spring.security.jwt.repository.RoleRepository;
+import com.onik.spring.security.jwt.repository.UserRepository;
 import com.onik.spring.security.jwt.security.jwt.JwtUtils;
+import com.onik.spring.security.jwt.security.services.RoleEnum;
 import com.onik.spring.security.jwt.security.services.UserDetailsImpl;
 import com.onik.spring.security.jwt.service.mail.EmailSenderService;
 import lombok.AllArgsConstructor;
@@ -22,7 +26,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.onik.spring.security.jwt.utils.PasswordUtils.generate;
@@ -40,6 +46,11 @@ public class UserLoginServiceImpl implements UserLoginService {
     private final EmailSenderService emailSenderService;
     private final PasswordEncoder passwordEncoder;
 
+    private static void comparePasswords(CreatePasswordUserDTO createPasswordUserDTO) {
+        if (createPasswordUserDTO.getPassword().equals(createPasswordUserDTO.getRepeatedPassword()))
+            return;
+        throw new RuntimeException("Password mismatch");
+    }
 
     @Override
     @Transactional
@@ -60,12 +71,6 @@ public class UserLoginServiceImpl implements UserLoginService {
     public void updatePassword(CreatePasswordUserDTO createPasswordUserDTO) {
         comparePasswords(createPasswordUserDTO);
         updatePassword(createPasswordUserDTO.getPassword());
-    }
-
-    private static void comparePasswords(CreatePasswordUserDTO createPasswordUserDTO) {
-        if (createPasswordUserDTO.getPassword().equals(createPasswordUserDTO.getRepeatedPassword()))
-            return;
-        throw new RuntimeException("Password mismatch");
     }
 
     private void updatePassword(String password) {
@@ -93,8 +98,8 @@ public class UserLoginServiceImpl implements UserLoginService {
         List<String> roles = userDetailsImpl.getAuthorities().stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return new JwtResponse(jwt, refreshTokenJWT, userDetailsImpl.getId(), userDetailsImpl.getUsername(), userDetailsImpl.getEmail(),roles);
-}
+        return new JwtResponse(jwt, refreshTokenJWT, userDetailsImpl.getId(), userDetailsImpl.getUsername(), userDetailsImpl.getEmail(), roles);
+    }
 
     @Override
     public MessageResponse getSignupRequest(SignupRequest signUpRequest) {
@@ -106,7 +111,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
 
         List<RoleRequest> strRoles = signUpRequest.getRoles();
-        List<RoleEntity>  roleEntities = getRoleEntity(strRoles);
+        List<RoleEntity> roleEntities = getRoleEntity(strRoles);
 
         UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()), new ArrayList<>(roleEntities));
@@ -142,7 +147,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         return jwtRefreshToken;
     }
 
-    private List<RoleEntity>  getRoleEntity(List<RoleRequest> roles) {
+    private List<RoleEntity> getRoleEntity(List<RoleRequest> roles) {
         List<RoleEntity> roleEntities = new ArrayList<>();
         if (roles == null) {
             RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)

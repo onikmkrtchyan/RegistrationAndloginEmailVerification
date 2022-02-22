@@ -15,10 +15,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping(value = "/car")
 public class CarController {
-   private final CarService carService;
+    private final CarService carService;
 
     @PostMapping
-    public ResponseEntity<Long> create(@Valid @RequestBody CarCreateRequest carCreateRequest){
+    public ResponseEntity<Long> create(@Valid @RequestBody CarCreateRequest carCreateRequest) {
         Long id = carService.create(carCreateRequest);
         return ResponseEntity.ok(id);
     }
