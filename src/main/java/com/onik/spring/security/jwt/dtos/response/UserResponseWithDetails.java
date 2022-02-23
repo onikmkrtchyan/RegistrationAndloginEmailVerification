@@ -26,7 +26,7 @@ public class UserResponseWithDetails {
 
     private List<ApartmentResponse> apartments;
 
-//    private OfficeResponse office;
+//    private OfficeResponse office;//this used for getting info Without userOffice(in JSON)
 
     private UserOfficeResponse userOffice;
 }
