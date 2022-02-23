@@ -39,7 +39,7 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<CarEntity> cars;
 
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private UserOfficeEntity userOffice;
 
     public UserEntity(String username, String email, String password, List<RoleEntity> roles) {

@@ -9,6 +9,7 @@ public class UserEntitySpec {
     public static Specification<UserEntity> getAllWithCars() {
         return Specification.where((root, criteriaQuery, criteriaBuilder) -> {
             root.fetch("cars", JoinType.LEFT);
+            criteriaQuery.distinct(true);
             return root.isNotNull();
         });
     }
@@ -16,6 +17,7 @@ public class UserEntitySpec {
     public static Specification<UserEntity> getAllWithRoles() {
         return Specification.where((root, criteriaQuery, criteriaBuilder) -> {
             root.fetch("roles", JoinType.LEFT);
+            criteriaQuery.distinct(true);
             return root.isNotNull();
         });
     }
@@ -23,6 +25,7 @@ public class UserEntitySpec {
     public static Specification<UserEntity> getAllWithApartments() {
         return Specification.where((root, criteriaQuery, criteriaBuilder) -> {
             root.fetch("apartments", JoinType.LEFT);
+            criteriaQuery.distinct(true);
             return root.isNotNull();
         });
     }
@@ -30,6 +33,7 @@ public class UserEntitySpec {
     public static Specification<UserEntity> getAllWithOffice() {
         return Specification.where((root, criteriaQuery, criteriaBuilder) -> {
             root.fetch("userOffice", JoinType.LEFT);
+            criteriaQuery.distinct(true);
             return root.isNotNull();
         });
     }

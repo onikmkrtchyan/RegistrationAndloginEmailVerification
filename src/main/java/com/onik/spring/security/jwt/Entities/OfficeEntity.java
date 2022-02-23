@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,4 +22,7 @@ public class OfficeEntity {
 
     @Column(nullable = false)
     private String address;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "office")
+    private List<UserOfficeEntity> userOffices;
 }
