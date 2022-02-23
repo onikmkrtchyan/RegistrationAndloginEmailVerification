@@ -10,15 +10,13 @@ import javax.persistence.*;
 @Setter
 @Table(name = "user_role")
 public class UserRoleEntity {
-
-    @EmbeddedId
-    private UserRoleEntityKey id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("roleId")
-    private RoleEntity role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
     private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private RoleEntity role;
 }
