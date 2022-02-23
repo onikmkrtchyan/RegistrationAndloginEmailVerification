@@ -1,6 +1,6 @@
 package com.onik.spring.security.jwt.repository;
 
-import com.onik.spring.security.jwt.Entities.UserEntity;
+import com.onik.spring.security.jwt.Entities.*;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -18,7 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>,
 
     Boolean existsByEmail(String email);
 
-    @EntityGraph(attributePaths = {"cars"})
     UserEntity getById(Long userId);
 
     @EntityGraph(attributePaths = {"cars"})
