@@ -6,6 +6,7 @@ import com.onik.spring.security.jwt.dtos.request.UserApartmentsRequest;
 import com.onik.spring.security.jwt.service.user.UserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,13 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
 @RequestMapping("/apartment")
 public class ApartmentController {
     private final UserDetailService userDetailService;
 
     @PostMapping()
-    public ResponseEntity<Long> registerUserEmail(@Valid @RequestBody ApartmentRequest apartmentRequest) {
+    public ResponseEntity<Long> createApartment(@Valid @RequestBody ApartmentRequest apartmentRequest) {
         Long id = userDetailService.createApartment(apartmentRequest);
         return ResponseEntity.ok(id);
     }

@@ -6,8 +6,6 @@ import com.onik.spring.security.jwt.Entities.UserEntity;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.dtos.response.UserResponseWithDetails;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -18,6 +16,6 @@ public interface DTOMapper {
 
     UserResponseWithDetails toUserDTOWithCars(UserEntity userEntity);
 
-    //    @Mapping(source = "userOffice", target = "office")
+    //    @Mapping(source = "userOffice.office", target = "office")//this used for hide userOffice in response
     UserResponseWithDetails toDTO(UserEntity userEntity);
 }

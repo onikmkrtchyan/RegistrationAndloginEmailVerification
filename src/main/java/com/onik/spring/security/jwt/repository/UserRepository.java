@@ -18,11 +18,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>,
 
     Boolean existsByEmail(String email);
 
+    @EntityGraph(attributePaths = {"cars"})
     UserEntity getById(Long userId);
 
     @EntityGraph(attributePaths = {"cars"})
     List<UserEntity> findAll();
-
-    @EntityGraph(attributePaths = {"role"})
-    List<UserEntity> getAllBy();
 }

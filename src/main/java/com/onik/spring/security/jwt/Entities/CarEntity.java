@@ -19,6 +19,5 @@ public class CarEntity {
     private String carNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id")
     private UserEntity user;
 }
