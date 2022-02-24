@@ -3,20 +3,19 @@ package com.onik.spring.security.jwt.dtos.request;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Getter
 @Setter
 public class SignupEmailRequest {
 
-    @NotBlank
+    @NotEmpty(message = "Field can't be Empty")
+    @NotBlank(message = "Field can't be Blank")
+    @NotNull(message  = "Field can't be Null")
     @Size(min = 3, max = 20)
     private String username;
 
-    @NotBlank
     @Size(max = 50)
     @Email
     private String email;

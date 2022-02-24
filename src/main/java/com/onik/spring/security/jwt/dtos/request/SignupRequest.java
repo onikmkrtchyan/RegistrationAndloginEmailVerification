@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 @Setter
 public class SignupRequest {
 
-    @NotBlank
+    @NotEmpty(message = "Field can't be Empty")
+    @NotBlank(message = "Field can't be Blank")
+    @NotNull(message  = "Field can't be Null")
     @Size(min = 3, max = 20)
     private String username;
 
@@ -25,7 +27,9 @@ public class SignupRequest {
     @NotEmpty
     private List<RoleRequest> roles;
 
-    @NotBlank
+    @NotEmpty(message = "Field can't be Empty")
+    @NotBlank(message = "Field can't be Blank")
+    @NotNull(message  = "Field can't be Null")
     @ValidPassword
     private String password;
 }
