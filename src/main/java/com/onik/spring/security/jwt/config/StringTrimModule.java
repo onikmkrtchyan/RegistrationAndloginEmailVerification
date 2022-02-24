@@ -31,3 +31,5 @@ public class StringTrimModule extends SimpleModule {
         });
     }
 }
+//soft delete
+//update

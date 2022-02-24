@@ -10,13 +10,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class LoginRequest {
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private String username;
 
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private String password;
 }

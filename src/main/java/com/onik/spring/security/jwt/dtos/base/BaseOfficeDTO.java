@@ -10,11 +10,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class BaseOfficeDTO {
-    @NotNull(message  = "Field can't be Null")
+    @NotNull
     private Long number;
 
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private String address;
 }

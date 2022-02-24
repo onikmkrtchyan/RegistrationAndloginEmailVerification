@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 public class SignupEmailRequest {
 
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     @Size(min = 3, max = 20)
     private String username;
 

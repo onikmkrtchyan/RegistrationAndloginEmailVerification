@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CreatePasswordUserDTO {
 
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private String password;
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message  = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private String repeatedPassword;
 }

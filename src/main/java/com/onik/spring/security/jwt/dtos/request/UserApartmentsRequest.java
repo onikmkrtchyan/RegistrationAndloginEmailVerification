@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 public class UserApartmentsRequest {
-    @NotEmpty(message = "Field can't be Empty")
-    @NotBlank(message = "Field can't be Blank")
-    @NotNull(message = "Field can't be Null")
+    @NotEmpty
+    @NotBlank
+    @NotNull
     private List<UserApartmentRequest> userApartmentRequests;
 }

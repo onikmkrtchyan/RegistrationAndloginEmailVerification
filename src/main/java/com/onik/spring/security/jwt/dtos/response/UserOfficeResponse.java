@@ -8,8 +8,11 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 public class UserOfficeResponse {
-    @NotEmpty(message = "Field can't be Empty")
+    @NotEmpty
+    private Long id;
+
+    @NotEmpty
     private String isRemote;
-    @NotEmpty(message = "Field can't be Empty")
+    @NotEmpty
     private OfficeResponse office;
 }

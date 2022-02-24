@@ -12,7 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 public class UserResponseWithDetails {
-    @NotEmpty(message = "Field can't be Empty")
+    @NotEmpty
+    private Long id;
+
+    @NotEmpty
     @Size(min = 3, max = 20)
     private String username;
 

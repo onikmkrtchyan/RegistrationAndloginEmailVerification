@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @AllArgsConstructor
 public class MessageResponse {
-    @NotEmpty(message = "Field can't be Empty")
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String message;
 }
