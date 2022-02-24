@@ -36,6 +36,4 @@ public class ApartmentController {
     public void setApartments(@Valid @RequestBody UserApartmentsRequest userApartmentsRequest) {
         userDetailService.setUserApartments(userApartmentsRequest);
     }
-
-
 }
