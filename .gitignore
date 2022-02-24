@@ -14,3 +14,4 @@ out/
 
 /logs/*.log
 /logs/archive/*.gz
+target
