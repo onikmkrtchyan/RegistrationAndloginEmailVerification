@@ -1,6 +1,9 @@
 package com.onik.spring.security.jwt.repository;
 
 import com.onik.spring.security.jwt.Entities.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,8 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long>,
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
-
-    UserEntity getById(Long userId);
 
     @EntityGraph(attributePaths = {"cars"})
     List<UserEntity> findAll();

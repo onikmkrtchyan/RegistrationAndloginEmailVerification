@@ -6,6 +6,8 @@ import com.onik.spring.security.jwt.Entities.UserEntity;
 import com.onik.spring.security.jwt.dtos.request.ApartmentRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentsRequest;
+import com.onik.spring.security.jwt.exception.ApartmentNotFoundException;
+import com.onik.spring.security.jwt.exception.UserNotFoundException;
 import com.onik.spring.security.jwt.repository.ApartmentRepository;
 import com.onik.spring.security.jwt.repository.UserApartmentRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -44,10 +46,26 @@ public class UserDetailServiceImpl implements UserDetailService {
         userApartmentsRequest.getUserApartmentRequests().parallelStream().forEach(this::setApartment);
     }
 
+    @Override
+    public void delete(Long id) {
+        ApartmentEntity apartmentEntity = apartmentRepository.findById(id).orElseThrow(() -> new ApartmentNotFoundException(id));
+        apartmentEntity.setDeleted(true);
+        apartmentRepository.save(apartmentEntity);
+    }
+
+    @Override
+    public void update(Long id, ApartmentRequest apartmentRequest) {
+        ApartmentEntity apartment = apartmentRepository.findById(id).orElseThrow(() ->new ApartmentNotFoundException(id));
+        apartment.setFloor(apartmentRequest.getFloor());
+        apartment.setNumber(apartmentRequest.getNumber());
+        apartment.setAddress(apartmentRequest.getAddress());
+        apartmentRepository.save(apartment);
+    }
+
     private void setApartment(UserApartmentRequest userApartmentsRequest1) {
         List<UserApartmentEntity> userApartmentEntities = new ArrayList<>();
-
-        UserEntity userEntity = userRepository.getById(userApartmentsRequest1.getUserId());
+        Long userId = userApartmentsRequest1.getUserId();
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         List<ApartmentEntity> apartmentEntities = apartmentRepository.findAllByIdIn(userApartmentsRequest1.getApartmentIds());
 
         apartmentEntities.parallelStream().forEach(apartmentEntity -> {

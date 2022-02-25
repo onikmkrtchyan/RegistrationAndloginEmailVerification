@@ -5,6 +5,7 @@ import com.onik.spring.security.jwt.Entities.UserEntity;
 import com.onik.spring.security.jwt.Entities.UserOfficeEntity;
 import com.onik.spring.security.jwt.dtos.request.OfficeCreateRequest;
 import com.onik.spring.security.jwt.dtos.request.UserOfficeCreateRequest;
+import com.onik.spring.security.jwt.exception.OfficeNotFoundException;
 import com.onik.spring.security.jwt.repository.OfficeRepository;
 import com.onik.spring.security.jwt.repository.UserOfficeRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -38,5 +39,20 @@ public class OfficeServiceImpl implements OfficeService {
         userOfficeEntity.setUser(userEntity);
         userOfficeEntity.setIsRemote(userOfficeCreateRequest.getIsRemote());
         userOfficeRepository.save(userOfficeEntity);
+    }
+
+    @Override
+    public void delete(Long id) {
+        OfficeEntity officeEntity = officeRepository.findById(id).orElseThrow(() -> new OfficeNotFoundException(id));
+        officeEntity.setDeleted(true);
+        officeRepository.save(officeEntity);
+    }
+
+    @Override
+    public void update(Long id, OfficeCreateRequest officeCreateRequest) {
+        OfficeEntity office = officeRepository.findById(id).orElseThrow(() -> new OfficeNotFoundException(id));
+        office.setAddress(officeCreateRequest.getAddress());
+        office.setNumber(officeCreateRequest.getNumber());
+        officeRepository.save(office);
     }
 }

@@ -11,8 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class UserApartmentsRequest {
-    @NotEmpty
-    @NotBlank
     @NotNull
     private List<UserApartmentRequest> userApartmentRequests;
 }

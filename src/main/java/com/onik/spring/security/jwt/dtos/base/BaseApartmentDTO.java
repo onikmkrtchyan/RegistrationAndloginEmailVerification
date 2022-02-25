@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class BaseApartmentDTO {
-    @NotEmpty
-    @NotBlank
     @NotNull
     private String address;
 

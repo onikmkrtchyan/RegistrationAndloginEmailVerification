@@ -7,4 +7,8 @@ public interface OfficeService {
     void create(OfficeCreateRequest officeCreateRequest);
 
     void addUserToOffice(UserOfficeCreateRequest userOfficeCreateRequest);
+
+    void delete(Long id);
+
+    void update(Long id, OfficeCreateRequest officeCreateRequest);
 }

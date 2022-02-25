@@ -19,4 +19,5 @@ public interface UserLoginService {
 
     void updatePassword(CreatePasswordUserDTO createPasswordUserDTO);
 
+    void update(Long id, SignupRequest signupRequest);
 }

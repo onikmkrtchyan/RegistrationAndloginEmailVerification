@@ -14,9 +14,7 @@ public class UserApartmentRequest {
 
     @NotNull(message = "Field can't be Null")
     private Long userId;
-    
-    @NotEmpty
-    @NotBlank
+
     @NotNull
     private List<Long> apartmentIds;
 }

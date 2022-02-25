@@ -10,6 +10,5 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class CarResponse extends BaseCarDTO {
-    @NotNull
     private Long id;
 }

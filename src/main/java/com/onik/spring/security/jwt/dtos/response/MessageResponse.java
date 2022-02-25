@@ -13,8 +13,5 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 public class MessageResponse {
-    @NotEmpty
-    @NotNull
-    @NotBlank
     private String message;
 }

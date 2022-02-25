@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class SignupRequest {
-
     @NotEmpty
     @NotBlank
     @NotNull
@@ -24,12 +23,8 @@ public class SignupRequest {
     private String email;
 
     @Valid
-    @NotEmpty
     private List<RoleRequest> roles;
 
-    @NotEmpty
-    @NotBlank
-    @NotNull
     @ValidPassword
     private String password;
 }

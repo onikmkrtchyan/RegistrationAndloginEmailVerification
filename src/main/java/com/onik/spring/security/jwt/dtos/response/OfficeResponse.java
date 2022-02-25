@@ -10,6 +10,5 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class OfficeResponse extends BaseOfficeDTO {
-    @NotNull
     private Long id;
 }

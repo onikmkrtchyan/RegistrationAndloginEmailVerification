@@ -8,11 +8,6 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 public class UserOfficeResponse {
-    @NotEmpty
-    private Long id;
-
-    @NotEmpty
     private String isRemote;
-    @NotEmpty
     private OfficeResponse office;
 }

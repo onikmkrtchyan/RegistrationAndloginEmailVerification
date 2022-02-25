@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<ApartmentEntity, Long> {
-    ApartmentEntity getById(Long id);
-
     List<ApartmentEntity> findAllByIdIn(List<Long> id);
 }

@@ -6,6 +6,7 @@ import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.dtos.response.UserResponseWithDetails;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
 import com.onik.spring.security.jwt.repository.UserRepository;
+import com.onik.spring.security.jwt.service.car.CarServiceImpl;
 import com.onik.spring.security.jwt.service.user.UserEntitySpec;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
-    private final CarService carService;
+    private final CarServiceImpl carServiceImpl;
     private final DTOMapper dtoMapper;
 
     @Override
@@ -36,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserResponseWithDetails getWithDetails(Long id) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         UserResponseWithDetails userResponseWithDetails = dtoMapper.toUserDTOWithCars(userEntity);
-        List<CarResponse> carResponses = carService.getCarsByUserId(id);
+        List<CarResponse> carResponses = carServiceImpl.getCarsByUserId(id);
         userResponseWithDetails.setCars(carResponses);
         return userResponseWithDetails;
     }
@@ -45,10 +46,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public List<UserResponseWithDetails> getAllUsersWithData() {
         List<UserEntity> userEntityList =
                 userRepository.findAll(UserEntitySpec.getAllWithCars());
-        userRepository.findAll(UserEntitySpec.getAllWithRoles());
-        userRepository.findAll(UserEntitySpec.getAllWithApartments());
-        userRepository.findAll(UserEntitySpec.getAllWithOffice());
+
+        List<Long> longs = userEntityList.stream().map(UserEntity::getId).collect(Collectors.toList());
+
+        userRepository.findAll(UserEntitySpec.getAllWithApartments(longs));
+        userRepository.findAll(UserEntitySpec.getAllWithOffice(longs));
+        userRepository.findAll(UserEntitySpec.getAllWithRoles(longs));
 
         return userEntityList.stream().map(dtoMapper::toDTO).collect(Collectors.toList());
+    }
+
+    public void delete(Long id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 }

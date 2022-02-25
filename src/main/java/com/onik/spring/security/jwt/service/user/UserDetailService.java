@@ -11,4 +11,8 @@ public interface UserDetailService {
     void setUserApartment(UserApartmentRequest userApartmentRequest);
 
     void setUserApartments(UserApartmentsRequest userApartmentsRequest);
+
+    void delete(Long id);
+
+    void update(Long id, ApartmentRequest apartmentRequest);
 }

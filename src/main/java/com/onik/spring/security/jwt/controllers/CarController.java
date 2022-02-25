@@ -1,8 +1,9 @@
 package com.onik.spring.security.jwt.controllers;
 
 import com.onik.spring.security.jwt.dtos.request.CarCreateRequest;
+import com.onik.spring.security.jwt.dtos.request.SignupRequest;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
-import com.onik.spring.security.jwt.security.services.CarService;
+import com.onik.spring.security.jwt.service.car.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,5 +31,15 @@ public class CarController {
         PageRequest pageRequest = PageRequest.of(0, 20);
         Page<CarResponse> carResponses = carService.getAll(pageRequest);
         return ResponseEntity.ok(carResponses);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Long id){
+        carService.delete(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody CarCreateRequest carCreateRequest){
+        carService.update(id,carCreateRequest);
     }
 }

@@ -3,6 +3,7 @@ package com.onik.spring.security.jwt.Entities;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @RequiredArgsConstructor
+@Where(clause="deleted=false")
 @Table(name = "office")
 public class OfficeEntity {
     @Id
@@ -22,6 +24,8 @@ public class OfficeEntity {
 
     @Column(nullable = false)
     private String address;
+
+    private boolean deleted = Boolean.FALSE;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "office")
     private List<UserOfficeEntity> userOffices;

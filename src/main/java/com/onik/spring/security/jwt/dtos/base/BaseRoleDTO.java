@@ -13,8 +13,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @RequiredArgsConstructor
 public class BaseRoleDTO {
-    @NotEmpty
-    @NotBlank
+
     @NotNull
     private RoleEnum name;
 }

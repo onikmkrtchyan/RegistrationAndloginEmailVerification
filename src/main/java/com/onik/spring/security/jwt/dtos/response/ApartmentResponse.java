@@ -10,6 +10,5 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 public class ApartmentResponse extends BaseApartmentDTO {
-    @NotNull
     private Long id;
 }

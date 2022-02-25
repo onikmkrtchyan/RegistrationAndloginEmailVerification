@@ -12,10 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 public class UserResponseWithDetails {
-    @NotEmpty
+
     private Long id;
 
-    @NotEmpty
+
     @Size(min = 3, max = 20)
     private String username;
 
@@ -27,7 +27,7 @@ public class UserResponseWithDetails {
 
     private List<CarResponse> cars;
 
-    private List<ApartmentResponse> apartments;
+    private List<UserApartmentResponse> userApartment;
 
 //    private OfficeResponse office;//this used for getting info Without userOffice(in JSON)
 

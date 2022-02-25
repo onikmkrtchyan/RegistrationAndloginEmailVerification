@@ -7,8 +7,10 @@ import com.onik.spring.security.jwt.dtos.request.*;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
+import com.onik.spring.security.jwt.exception.EmailAlreadyTakenException;
 import com.onik.spring.security.jwt.exception.TokenRefreshException;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
+import com.onik.spring.security.jwt.exception.UsernameAlreadyTakenException;
 import com.onik.spring.security.jwt.repository.RefreshTokenRepository;
 import com.onik.spring.security.jwt.repository.RoleRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -24,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +75,27 @@ public class UserLoginServiceImpl implements UserLoginService {
     public void updatePassword(CreatePasswordUserDTO createPasswordUserDTO) {
         comparePasswords(createPasswordUserDTO);
         updatePassword(createPasswordUserDTO.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, SignupRequest signupRequest) {
+        UserEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+            throw new UsernameAlreadyTakenException(signupRequest.getUsername());
+        }
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+            throw new EmailAlreadyTakenException(signupRequest.getEmail());
+        }
+        user.setEmail(signupRequest.getEmail());
+        user.setUsername(signupRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        List<RoleRequest> strRoles = signupRequest.getRoles();
+        List<RoleEntity> roleEntities = getRoleEntity(strRoles);
+        user.setRoles(roleEntities);
+
+        userRepository.save(user);
     }
 
     private void updatePassword(String password) {

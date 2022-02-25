@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class RoleResponse extends BaseRoleDTO {
-    @NotNull
+
     private Long id;
 }
