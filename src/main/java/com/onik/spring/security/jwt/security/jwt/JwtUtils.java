@@ -45,10 +45,10 @@ public class JwtUtils {
      * when user reset or change his password
      * and all clients of a user should be signed out
      *
-     * @param claims
-     * @param jwtExpirationMs
-     * @param password
-     * @return
+     * @param claims claims
+     * @param jwtExpirationMs  Expiration date
+     * @param password password
+     * @return token
      */
     private String buildJwt(Claims claims, long jwtExpirationMs, String password) {
         LOGGER.info("build jwt token");
