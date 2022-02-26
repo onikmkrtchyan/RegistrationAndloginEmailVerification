@@ -2,6 +2,7 @@ package com.onik.spring.security.jwt.security.services;
 
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.exception.RefreshTokenNotFoundException;
+import com.onik.spring.security.jwt.utils.Instances;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +19,7 @@ public class RefreshTokenService {
 
     @Transactional
     public MessageResponse deleteByRefreshToken(String refreshToken) {
-        refreshToken = refreshToken.substring(7);
+        refreshToken = refreshToken.substring(Instances.BEARER.length()+1);
         if (!refreshTokenRepository.existsByToken(refreshToken))
             throw new RefreshTokenNotFoundException(refreshToken);
         else

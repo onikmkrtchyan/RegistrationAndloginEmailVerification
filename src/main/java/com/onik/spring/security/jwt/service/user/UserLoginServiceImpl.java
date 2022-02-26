@@ -7,10 +7,7 @@ import com.onik.spring.security.jwt.dtos.request.*;
 import com.onik.spring.security.jwt.dtos.response.JwtResponse;
 import com.onik.spring.security.jwt.dtos.response.MessageResponse;
 import com.onik.spring.security.jwt.dtos.response.TokenRefreshResponse;
-import com.onik.spring.security.jwt.exception.EmailAlreadyTakenException;
-import com.onik.spring.security.jwt.exception.TokenRefreshException;
-import com.onik.spring.security.jwt.exception.UserNotFoundException;
-import com.onik.spring.security.jwt.exception.UsernameAlreadyTakenException;
+import com.onik.spring.security.jwt.exception.*;
 import com.onik.spring.security.jwt.repository.RefreshTokenRepository;
 import com.onik.spring.security.jwt.repository.RoleRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -52,7 +49,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     private static void comparePasswords(CreatePasswordUserDTO createPasswordUserDTO) {
         if (createPasswordUserDTO.getPassword().equals(createPasswordUserDTO.getRepeatedPassword()))
             return;
-        throw new RuntimeException("Password mismatch");
+        throw new PasswordMismatchException();
     }
 
     @Override
@@ -101,7 +98,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         UserDetailsImpl usi = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserEntity userEntity = userRepository
                 .findByUsername(usi.getUsername())
-                .orElseThrow(() -> new RuntimeException("username"));
+                .orElseThrow(() -> new UserNotFoundException("Username Does not exist"));
         userEntity.setPassword(passwordEncoder.encode(password));
         userRepository.save(userEntity);
     }
@@ -149,7 +146,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     @Transactional
     public TokenRefreshResponse getRefreshTokenRequest(String oldRefreshToken) {
-        oldRefreshToken = oldRefreshToken.substring(Instances.BEARER.length()+1);
+        oldRefreshToken = oldRefreshToken.substring(Instances.BEARER.length() + 1);
         if (refreshTokenRepository.existsByToken(oldRefreshToken)) {
             String username = jwtUtils.getUserNameFromJwtToken(oldRefreshToken);
             refreshTokenRepository.deleteByToken(oldRefreshToken);
@@ -158,7 +155,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             String newRefreshToken = generateAndSaveRefreshToken(userDetailsImpl);
             return new TokenRefreshResponse(newAccessToken, newRefreshToken);
         } else
-            throw new TokenRefreshException(oldRefreshToken, "Time Expired for this refresh token: Please Login again");
+            throw new RefreshTokenNotFoundException(oldRefreshToken);
     }
 
     @Override
@@ -176,12 +173,12 @@ public class UserLoginServiceImpl implements UserLoginService {
         List<RoleEntity> roleEntities = new ArrayList<>();
         if (roles == null) {
             RoleEntity userRoleEntity = roleRepository.findByName(RoleEnum.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RoleNotFoundException("Role Npt in DB"));
             roleEntities.add(userRoleEntity);
         } else {
             roles.forEach(role -> {
                 RoleEntity modRoleEntity = roleRepository.findByName(role.getName())
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        .orElseThrow(() -> new RoleNotFoundException("Role Not in DB"));
                 roleEntities.add(modRoleEntity);
             });
         }

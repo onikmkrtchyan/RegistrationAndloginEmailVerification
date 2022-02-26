@@ -6,6 +6,7 @@ import com.onik.spring.security.jwt.Entities.UserOfficeEntity;
 import com.onik.spring.security.jwt.dtos.request.OfficeCreateRequest;
 import com.onik.spring.security.jwt.dtos.request.UserOfficeCreateRequest;
 import com.onik.spring.security.jwt.exception.OfficeNotFoundException;
+import com.onik.spring.security.jwt.exception.UserNotFoundException;
 import com.onik.spring.security.jwt.repository.OfficeRepository;
 import com.onik.spring.security.jwt.repository.UserOfficeRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -29,10 +30,12 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public void addUserToOffice(UserOfficeCreateRequest userOfficeCreateRequest) {
-        OfficeEntity officeEntity = officeRepository.findById(userOfficeCreateRequest.getOfficeId())
-                .orElseThrow(() -> new RuntimeException("Office not found"));
-        UserEntity userEntity = userRepository.findById(userOfficeCreateRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Long userId = userOfficeCreateRequest.getUserId();
+        Long officeId = userOfficeCreateRequest.getOfficeId();
+        OfficeEntity officeEntity = officeRepository.findById(officeId).
+                orElseThrow(() -> new OfficeNotFoundException(officeId));
+        UserEntity userEntity = userRepository.findById(userId).
+                orElseThrow(() -> new UserNotFoundException(userId));
 
         UserOfficeEntity userOfficeEntity = new UserOfficeEntity();
         userOfficeEntity.setOffice(officeEntity);

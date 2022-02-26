@@ -1,18 +1,9 @@
 package com.onik.spring.security.jwt.security.jwt;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.onik.spring.security.jwt.utils.Instances;
-import com.onik.spring.security.jwt.utils.PasswordUtils;
+import com.onik.spring.security.jwt.security.services.UserDetailsServiceImpl;
 import io.jsonwebtoken.Jwts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +13,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.onik.spring.security.jwt.security.services.UserDetailsServiceImpl;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static com.onik.spring.security.jwt.utils.Instances.BEARER;
 
@@ -72,18 +67,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return headerAuth.substring(BEARER.length() + 1);
         }
         return null;
-    }
-
-    /**
-     * Validate jwt if user change or reset his password
-     */
-    public void validateJwtToken(String token, String password) {
-        LOGGER.info("JWT token validation by disfigured password");
-        if (getDisfiguredPasswordFromToken(token).equals(PasswordUtils.getDisfiguredPassword(password))) {
-            return;
-        }
-        LOGGER.error("JWT token is unsupported");
-        throw new RuntimeException("PermissionDeniedException");
     }
 
     public String getDisfiguredPasswordFromToken(String token) {

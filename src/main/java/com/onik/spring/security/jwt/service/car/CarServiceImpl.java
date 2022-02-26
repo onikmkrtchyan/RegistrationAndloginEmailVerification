@@ -6,6 +6,7 @@ import com.onik.spring.security.jwt.config.DTOMapper;
 import com.onik.spring.security.jwt.dtos.request.CarCreateRequest;
 import com.onik.spring.security.jwt.dtos.response.CarResponse;
 import com.onik.spring.security.jwt.exception.CarNotFoundException;
+import com.onik.spring.security.jwt.exception.CarNumberAlreadyTakenException;
 import com.onik.spring.security.jwt.exception.UserNotFoundException;
 import com.onik.spring.security.jwt.repository.CarRepository;
 import com.onik.spring.security.jwt.repository.UserRepository;
@@ -54,7 +55,7 @@ public class CarServiceImpl implements CarService {
 
     private void checkCarNumber(CarCreateRequest carCreateRequest) {
         if (carRepository.existsByCarNumber(carCreateRequest.getCarNumber())) {
-            throw new RuntimeException(carCreateRequest.getCarNumber());
+            throw new CarNumberAlreadyTakenException(carCreateRequest.getCarNumber());
         }
     }
 
