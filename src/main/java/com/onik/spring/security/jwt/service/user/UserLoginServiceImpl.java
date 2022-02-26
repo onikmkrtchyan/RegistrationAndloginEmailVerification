@@ -18,15 +18,14 @@ import com.onik.spring.security.jwt.security.jwt.JwtUtils;
 import com.onik.spring.security.jwt.security.services.RoleEnum;
 import com.onik.spring.security.jwt.security.services.UserDetailsImpl;
 import com.onik.spring.security.jwt.service.mail.EmailSenderService;
+import com.onik.spring.security.jwt.utils.Instances;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,20 +126,21 @@ public class UserLoginServiceImpl implements UserLoginService {
     }
 
     @Override
-    public MessageResponse getSignupRequest(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+    public MessageResponse getSignupRequest(SignupRequest signupRequest) {
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return new MessageResponse("Error: Username is already taken!");
         }
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
             return new MessageResponse("Error: Email is already in use!");
         }
 
-        List<RoleRequest> strRoles = signUpRequest.getRoles();
-        List<RoleEntity> roleEntities = getRoleEntity(strRoles);
+        List<RoleEntity> roleEntities = getRoleEntity(signupRequest.getRoles());
 
-        UserEntity user = new UserEntity(signUpRequest.getUsername(), signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()), new ArrayList<>(roleEntities));
-
+        UserEntity user = new UserEntity();
+        user.setUsername(signupRequest.getUsername());
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(encoder.encode(signupRequest.getPassword()));
+        user.setRoles(roleEntities);
         userRepository.save(user);
 
         return new MessageResponse("User registered successfully!");
@@ -149,7 +149,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     @Transactional
     public TokenRefreshResponse getRefreshTokenRequest(String oldRefreshToken) {
-        oldRefreshToken = oldRefreshToken.substring(7);
+        oldRefreshToken = oldRefreshToken.substring(Instances.BEARER.length()+1);
         if (refreshTokenRepository.existsByToken(oldRefreshToken)) {
             String username = jwtUtils.getUserNameFromJwtToken(oldRefreshToken);
             refreshTokenRepository.deleteByToken(oldRefreshToken);

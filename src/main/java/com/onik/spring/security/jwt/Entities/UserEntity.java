@@ -3,9 +3,6 @@ package com.onik.spring.security.jwt.Entities;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -17,8 +14,8 @@ import static java.util.Objects.isNull;
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "user")
 @Where(clause = "deleted=false")
+@Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,13 +44,6 @@ public class UserEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private UserOfficeEntity userOffice;
-
-    public UserEntity(String username, String email, String password, List<RoleEntity> roles) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
 
     public UserOfficeEntity getUserOffice() {
         if (isNull(userOffice)) return null;
