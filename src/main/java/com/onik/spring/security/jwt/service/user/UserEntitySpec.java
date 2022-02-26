@@ -1,7 +1,6 @@
 package com.onik.spring.security.jwt.service.user;
 
 import com.onik.spring.security.jwt.Entities.UserEntity;
-import org.cryptacular.spec.Spec;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.JoinType;

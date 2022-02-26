@@ -44,14 +44,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public List<UserResponseWithDetails> getAllUsersWithData() {
-        List<UserEntity> userEntityList =
-                userRepository.findAll(UserEntitySpec.getAllWithCars());
+        List<UserEntity> userEntityList = userRepository.findAll();
 
-        List<Long> longs = userEntityList.stream().map(UserEntity::getId).collect(Collectors.toList());
+//                userRepository.findAll(UserEntitySpec.getAllWithCars());
 
-        userRepository.findAll(UserEntitySpec.getAllWithApartments(longs));
-        userRepository.findAll(UserEntitySpec.getAllWithOffice(longs));
-        userRepository.findAll(UserEntitySpec.getAllWithRoles(longs));
+//        List<Long> longs = userEntityList.stream().map(UserEntity::getId).collect(Collectors.toList());
+//
+//        userRepository.findAll(UserEntitySpec.getAllWithApartments(longs));
+//        userRepository.findAll(UserEntitySpec.getAllWithOffice(longs));
+//        userRepository.findAll(UserEntitySpec.getAllWithRoles(longs));
 
         return userEntityList.stream().map(dtoMapper::toDTO).collect(Collectors.toList());
     }
