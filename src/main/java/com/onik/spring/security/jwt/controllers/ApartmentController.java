@@ -1,7 +1,6 @@
 package com.onik.spring.security.jwt.controllers;
 
 import com.onik.spring.security.jwt.dtos.request.ApartmentRequest;
-import com.onik.spring.security.jwt.dtos.request.CarCreateRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentRequest;
 import com.onik.spring.security.jwt.dtos.request.UserApartmentsRequest;
 import com.onik.spring.security.jwt.service.user.UserDetailService;
@@ -36,12 +35,12 @@ public class ApartmentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) {
         userDetailService.delete(id);
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody ApartmentRequest apartmentRequest){
-        userDetailService.update(id,apartmentRequest);
+    public void update(@PathVariable Long id, @RequestBody ApartmentRequest apartmentRequest) {
+        userDetailService.update(id, apartmentRequest);
     }
 }

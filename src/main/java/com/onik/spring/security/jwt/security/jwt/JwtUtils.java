@@ -1,16 +1,19 @@
 package com.onik.spring.security.jwt.security.jwt;
 
 
-import java.util.Date;
 import com.onik.spring.security.jwt.security.services.RefreshTokenService;
 import com.onik.spring.security.jwt.utils.PasswordUtils;
+import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
+@RequiredArgsConstructor
 @Component
 public class JwtUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
@@ -28,10 +31,6 @@ public class JwtUtils {
 
     @Value("${tempTokenExpirationMs}")
     private long tempTokenExpirationMs;
-
-    public JwtUtils(RefreshTokenService refreshTokenService) {
-        this.refreshTokenService = refreshTokenService;
-    }
 
     public String generateOneTimeToken(String username, String password) {
         LOGGER.info("generate one time token");

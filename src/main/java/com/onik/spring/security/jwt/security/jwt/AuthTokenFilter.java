@@ -1,7 +1,7 @@
 package com.onik.spring.security.jwt.security.jwt;
 
 import com.onik.spring.security.jwt.security.services.UserDetailsServiceImpl;
-import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import static com.onik.spring.security.jwt.utils.Instances.BEARER;
 
+@RequiredArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LogManager.getLogger(AuthTokenFilter.class);
 
@@ -32,10 +33,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-
-
-    public AuthTokenFilter() {
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -67,10 +64,5 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return headerAuth.substring(BEARER.length() + 1);
         }
         return null;
-    }
-
-    public String getDisfiguredPasswordFromToken(String token) {
-        LOGGER.info("get disfigured password from token ");
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("password", String.class);
     }
 }

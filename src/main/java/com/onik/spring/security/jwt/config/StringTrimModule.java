@@ -24,12 +24,10 @@ public class StringTrimModule extends SimpleModule {
                     return jsonParser.getValueAsString();
                 }
                 if (ignoredFields.contains(jsonParser.currentName())) {
-                       return jsonParser.getValueAsString();
-                   }
+                    return jsonParser.getValueAsString();
+                }
                 return jsonParser.getValueAsString().trim();
             }
         });
     }
 }
-//soft delete
-//update
