@@ -19,73 +19,73 @@ public class _GlobalExceptionHandler {
     private static final Logger LOGGER = LogManager.getLogger(_GlobalExceptionHandler.class);
 
     @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleUserNotFoundException(HttpServletRequest req, UserNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(CarNumberAlreadyTakenException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
     public ResponseEntity<?> CarNumberAlreadyTakenException(HttpServletRequest req, CarNumberAlreadyTakenException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.CONFLICT, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(PasswordMismatchException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
     public ResponseEntity<?> handlePasswordMismatchException(HttpServletRequest req, PasswordMismatchException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.CONFLICT, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(RoleNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleRoleNotFoundException(HttpServletRequest req, RoleNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(ApartmentNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleApartmentNotFoundException(HttpServletRequest req, ApartmentNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(CarNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleCarNotFoundException(HttpServletRequest req, CarNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(OfficeNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleOfficeNotFoundException(HttpServletRequest req, OfficeNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(UsernameAlreadyTakenException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
     public ResponseEntity<?> handleUsernameAlreadyTakenException(HttpServletRequest req, UsernameAlreadyTakenException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.CONFLICT, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(EmailAlreadyTakenException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.CONFLICT)
     public ResponseEntity<?> handleEmailAlreadyTakenException(HttpServletRequest req, EmailAlreadyTakenException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.CONFLICT, e.getMessage(), req.getRequestURI());
     }
 
     @ExceptionHandler(RefreshTokenNotFoundException.class)
-    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleRefreshTokenNotFoundException(HttpServletRequest req, RefreshTokenNotFoundException e) {
         logError(req, e);
-        return buildResponse(HttpStatus.FORBIDDEN, e.getMessage(), req.getRequestURI());
+        return buildResponse(HttpStatus.NOT_FOUND, e.getMessage(), req.getRequestURI());
     }
 
     private ResponseEntity<?> buildResponse(HttpStatus httpCode, String message, String requestURI) {
