@@ -172,24 +172,10 @@
 			],
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
+					"type": "noauth"
 				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYXJ0YSIsImlhdCI6MTYxOTUyMzg3NywiZXhwIjoxNjE5NjEwMjc3fQ.OL-rgXl2okSihEh1qZQp-yIwsLyt0sFm55ZlXfF0n45GXjqiyh_OFALeD56vRX6oM_wJhlHcWekXwqIawEMVlQ",
-						"type": "text",
-						"disabled": true
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"username\": \"UserName_001\",\n    \"password\": \"Password_001\"\n}",
@@ -341,7 +327,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"carNumber\": \"92AA990\",\n  \"model\": \"Honda A\",\n  \"color\": \"Black\",\n  \"userId\": 1\n}",
+					"raw": "{\n  \"carNumber\": \"922e920\",\n  \"model\": \"Honda A\",\n  \"color\": \"Black\",\n  \"userId\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -401,7 +387,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Apartments To User",
+			"name": "Set Apartments To User",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -425,7 +411,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/apartment/setApartment",
+					"raw": "http://localhost:8080/apartment/set",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -433,14 +419,14 @@
 					"port": "8080",
 					"path": [
 						"apartment",
-						"setApartment"
+						"set"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Add Apartments To Users",
+			"name": "Set Apartments To Users",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -464,7 +450,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/apartment/setApartments",
+					"raw": "http://localhost:8080/apartment/setSeveral",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -472,7 +458,7 @@
 					"port": "8080",
 					"path": [
 						"apartment",
-						"setApartments"
+						"setSeveral"
 					]
 				}
 			},
@@ -517,7 +503,7 @@
 			"response": []
 		},
 		{
-			"name": "Add User to Office",
+			"name": "Set User to Office",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -541,7 +527,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/office/addUser",
+					"raw": "http://localhost:8080/office/setUser",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -549,7 +535,7 @@
 					"port": "8080",
 					"path": [
 						"office",
-						"addUser"
+						"setUser"
 					]
 				}
 			},
@@ -763,6 +749,287 @@
 					"path": [
 						"users",
 						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"UserName_000\",\n    \"email\" : \"User_000@mail.ru\",\n    \"password\": \"Password_001\",\n    \"roles\":\n    [\n        {\n             \"name\" : \"ROLE_ADMIN\"\n        },\n        {\n            \"name\" : \"ROLE_MODERATOR\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/update/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Office By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"number\": 555,\n  \"address\": \"Tumanyan 23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/office/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"office",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Car By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"carNumber\": \"92TT990\",\n  \"model\": \"Honda A\",\n  \"color\": \"BLUE\",\n  \"userId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/car/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"car",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Apartment By ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"address\": \"Baghramyan\",\n  \"floor\": 3,\n  \"number\": 999\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/apartment/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apartment",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete Office",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/office/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"office",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete Car",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/car/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"car",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Soft Delete Apartment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/apartment/delete/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"apartment",
+						"delete",
+						"1"
 					]
 				}
 			},
