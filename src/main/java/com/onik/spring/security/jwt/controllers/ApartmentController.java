@@ -24,13 +24,13 @@ public class ApartmentController {
         return ResponseEntity.ok(id);
     }
 
-    @PostMapping("/setApartment")
-    public void setApartment(@Valid @RequestBody UserApartmentRequest userApartmentRequest) {
+    @PostMapping("/set")
+    public void set(@Valid @RequestBody UserApartmentRequest userApartmentRequest) {
         userDetailService.setUserApartment(userApartmentRequest);
     }
 
-    @PostMapping("/setApartments")
-    public void setApartments(@Valid @RequestBody UserApartmentsRequest userApartmentsRequest) {
+    @PostMapping("/setSeveral")
+    public void set(@Valid @RequestBody UserApartmentsRequest userApartmentsRequest) {
         userDetailService.setUserApartments(userApartmentsRequest);
     }
 

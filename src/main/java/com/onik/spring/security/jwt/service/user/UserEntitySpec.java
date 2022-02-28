@@ -37,10 +37,11 @@ public class UserEntitySpec {
 
     public static Specification<UserEntity> getAllWithOffice(List<Long> longs) {
         return Specification.where((root, criteriaQuery, criteriaBuilder) -> {
-            root.fetch("userOffice").fetch("office");
-//            Predicate predicate = criteriaBuilder.equal(root.join("userOffice").get("office").get("deleted"), false);
+            root.fetch("userOffice",JoinType.LEFT).fetch("office",JoinType.LEFT);
+            Predicate predicate = criteriaBuilder.equal(root.join("userOffice",JoinType.LEFT).get("office").get("deleted"), false);
             criteriaQuery.distinct(true);
-            return root.in(longs);
+            root.in(longs);
+            return predicate;
         });
     }
 }

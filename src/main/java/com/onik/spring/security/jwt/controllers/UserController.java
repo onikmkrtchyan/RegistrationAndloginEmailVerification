@@ -23,7 +23,6 @@ public class UserController {
     private final UserDetailsServiceImpl userService;
     private final UserLoginService userLoginService;
 
-    //get user details by user_id
     @GetMapping("/{id}/details")
     public ResponseEntity<UserResponseWithDetails> getCarsById(@PathVariable Long id) {
         UserResponseWithDetails userResponseWithDetails = userService.getWithDetails(id);

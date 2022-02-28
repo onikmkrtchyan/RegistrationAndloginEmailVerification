@@ -22,8 +22,8 @@ public class OfficeController {
         officeService.create(officeCreateRequest);
     }
 
-    @PostMapping("/addUser")
-    public void addUserToOffice(@Valid @RequestBody UserOfficeCreateRequest userOfficeCreateRequest) {
+    @PostMapping("/setUser")
+    public void setUser(@Valid @RequestBody UserOfficeCreateRequest userOfficeCreateRequest) {
         officeService.addUserToOffice(userOfficeCreateRequest);
     }
 
