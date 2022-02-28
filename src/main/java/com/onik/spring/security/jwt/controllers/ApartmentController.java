@@ -34,7 +34,7 @@ public class ApartmentController {
         userDetailService.setUserApartments(userApartmentsRequest);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userDetailService.delete(id);
     }

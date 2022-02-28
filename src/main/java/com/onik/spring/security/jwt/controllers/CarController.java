@@ -30,7 +30,7 @@ public class CarController {
         carService.update(id, carCreateRequest);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         carService.delete(id);
     }

@@ -771,7 +771,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"UserName_000\",\n    \"email\" : \"User_000@mail.ru\",\n    \"password\": \"Password_001\",\n    \"roles\":\n    [\n        {\n             \"name\" : \"ROLE_ADMIN\"\n        },\n        {\n            \"name\" : \"ROLE_MODERATOR\"\n        }\n    ]\n}",
+					"raw": "{\n    \"username\": \"UserName_001\",\n    \"email\" : \"User_001@mail.ru\",\n    \"password\": \"Password_001\",\n    \"roles\":\n    [\n        {\n             \"name\" : \"ROLE_ADMIN\"\n        },\n        {\n            \"name\" : \"ROLE_MODERATOR\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -779,7 +779,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/users/update/1",
+					"raw": "http://localhost:8080/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -787,7 +787,6 @@
 					"port": "8080",
 					"path": [
 						"users",
-						"update",
 						"1"
 					]
 				}
@@ -927,7 +926,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/users/delete/1",
+					"raw": "http://localhost:8080/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -935,7 +934,6 @@
 					"port": "8080",
 					"path": [
 						"users",
-						"delete",
 						"1"
 					]
 				}
@@ -958,7 +956,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/office/delete/1",
+					"raw": "http://localhost:8080/office/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -966,7 +964,6 @@
 					"port": "8080",
 					"path": [
 						"office",
-						"delete",
 						"1"
 					]
 				}
@@ -989,7 +986,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/car/delete/1",
+					"raw": "http://localhost:8080/car/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -997,7 +994,6 @@
 					"port": "8080",
 					"path": [
 						"car",
-						"delete",
 						"1"
 					]
 				}
@@ -1020,7 +1016,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/apartment/delete/1",
+					"raw": "http://localhost:8080/apartment/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -1028,7 +1024,6 @@
 					"port": "8080",
 					"path": [
 						"apartment",
-						"delete",
 						"1"
 					]
 				}

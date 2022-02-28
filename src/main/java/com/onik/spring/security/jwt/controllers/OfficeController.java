@@ -27,7 +27,7 @@ public class OfficeController {
         officeService.addUserToOffice(userOfficeCreateRequest);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         officeService.delete(id);
     }
