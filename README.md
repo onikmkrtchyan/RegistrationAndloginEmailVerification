@@ -3,9 +3,9 @@
 
 ### Build JWT Refresh Token in the Java Spring Boot Application.
 
-### You can know how to expire the JWT, then renew the Access Token with Refresh Token.
+### When Access token expires, you can renew by Refresh Token.
 
-### Two vay of registration ` With Email verification and Without it
+### Two vay of registration  With Email verification and Without it
 
 ### Role Management with specific functionalities
 
